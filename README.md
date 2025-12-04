@@ -2,7 +2,8 @@
 
 > **Revolusi Pertanian 4.0: Dari Hulu (IoT & AI) hingga Hilir (B2B Supply Chain)**
 
-![Central Melon Banner](https://plus.unsplash.com/premium_photo-1679428402040-e3c93439ec13?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+![Central Melon Banner](<img width="1919" height="974" alt="image" src="https://github.com/user-attachments/assets/6af09c04-1259-4885-8648-981948a90629" />
+)
 
 ## 📖 Tentang Proyek
 

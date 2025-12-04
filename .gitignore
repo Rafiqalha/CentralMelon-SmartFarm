@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OS Junk Files
+Thumbs.db
+Desktop.ini
+
+# IDE Settings
+.vscode/
+.idea/

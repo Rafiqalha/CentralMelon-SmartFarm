@@ -87,10 +87,5 @@ Ikuti langkah ini untuk menjalankan proyek di komputer Anda.
 
 ### 1. Clone Repository
 ```bash
-<<<<<<< HEAD
 git clone [https://github.com/Rafiqalha/centralmelon-smartfarm.git](https://github.com/Rafiqalha/centralmelon-smartfarm.git)
 cd central-melon
-=======
-git clone [https://github.com/Rafiqalha/CentralMelon-SmartFarm.git](https://github.com/Rafiqalha/CentralMelon-SmartFarm.git)
-cd central-melon
->>>>>>> 671da1129d53d3851b6a9635b820d98edbfe92ad

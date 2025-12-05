@@ -10,7 +10,7 @@
 )
 >>>>>>> 671da1129d53d3851b6a9635b820d98edbfe92ad
 
-[![Vercel Deploy](https://deploy.vercel.com/button)](https://central-melon.vercel.app) 
+[![Vercel Deploy](https://deploy.vercel.com/button)](https://centralmelon-smartfarm.vercel.app) 
 **[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 
 ---

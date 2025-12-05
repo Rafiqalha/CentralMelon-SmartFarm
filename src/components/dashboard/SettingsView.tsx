@@ -8,7 +8,6 @@ export default function SettingsView() {
     const [activeTab, setActiveTab] = useState('general');
     const [loading, setLoading] = useState(false);
 
-    // State Simulasi Data (Nanti bisa diganti dengan data dari Supabase)
     const [formData, setFormData] = useState({
         farmName: 'Central Melon Premium',
         address: 'Karanggondang, Kec. Udanawu, Blitar',
@@ -23,7 +22,6 @@ export default function SettingsView() {
 
     const handleSave = () => {
         setLoading(true);
-        // Simulasi Request API
         setTimeout(() => {
             setLoading(false);
             toast.success("Pengaturan berhasil disimpan!");

@@ -23,7 +23,7 @@ export default function QualityChart({ simulationData }: QualityChartProps) {
                     return gradient;
                 },
                 fill: true,
-                tension: 0.4, // Garis melengkung halus
+                tension: 0.4, 
             },
         ],
     };

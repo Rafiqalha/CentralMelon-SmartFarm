@@ -5,20 +5,18 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect } from 'react';
 
-// Fix Icon Leaflet di Next.js
 const iconUrl = 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png';
 const iconRetinaUrl = 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png';
 const shadowUrl = 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png';
 
 // Icon Gudang (Custom)
 const warehouseIcon = new L.Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/484/484660.png', // Icon Gudang
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/484/484660.png',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
 });
 
-// Icon Kurir/Customer (Default)
 const defaultIcon = new L.Icon({
     iconUrl: iconUrl,
     iconRetinaUrl: iconRetinaUrl,
@@ -29,7 +27,6 @@ const defaultIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
-// Komponen Helper untuk Update View Peta
 function MapUpdater({ center }: { center: [number, number] }) {
     const map = useMap();
     useEffect(() => {
@@ -39,7 +36,7 @@ function MapUpdater({ center }: { center: [number, number] }) {
 }
 
 interface CourierMapProps {
-    routeCoords: [number, number][]; // Jalur Garis
+    routeCoords: [number, number][]; 
     startPoint: [number, number];
     endPoint: [number, number];
 }

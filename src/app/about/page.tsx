@@ -41,13 +41,9 @@ const VALUES = [
 
 export default function AboutPage() {
     const containerRef = useRef<HTMLDivElement>(null);
-
     useGSAP(() => {
-        // 1. Hero Animation - Smooth Rise
         const heroTl = gsap.timeline();
-        // Set initial state explicitly
         gsap.set('.hero-content', { autoAlpha: 0, y: 30 });
-
         heroTl.to('.hero-content', {
             y: 0,
             autoAlpha: 1,
@@ -56,8 +52,6 @@ export default function AboutPage() {
             delay: 0.1
         });
 
-        // 2. Values Cards Animation - Staggered Batch
-        // Using batch for better performance on grids
         ScrollTrigger.batch('.value-card', {
             start: 'top 85%',
             onEnter: (batch) => {
@@ -73,10 +67,9 @@ export default function AboutPage() {
                     }
                 );
             },
-            once: true // Play once for cleaner UX
+            once: true 
         });
 
-        // 3. Timeline Animation (Zig-Zag) - Coordinated Flow
         const items = gsap.utils.toArray<HTMLElement>('.milestone-item');
 
         items.forEach((item, i) => {
@@ -85,22 +78,19 @@ export default function AboutPage() {
             const txt = item.querySelector('.milestone-text');
             const dot = item.querySelector('.milestone-dot');
 
-            // Set initial states hidden
             gsap.set(img, { x: isLeft ? -50 : 50, autoAlpha: 0 });
             gsap.set(txt, { x: isLeft ? 30 : -30, autoAlpha: 0 });
             gsap.set(dot, { scale: 0, autoAlpha: 0 });
 
-            // Create a timeline for each row
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: item,
-                    start: 'top 80%', // Trigger when top of item hits 80% of viewport
+                    start: 'top 80%',
                     end: 'bottom 20%',
-                    toggleActions: 'play none none reverse' // Replay on scroll up for nice effect
+                    toggleActions: 'play none none reverse'
                 }
             });
 
-            // Sequence: Dot pops -> Image slides -> Text slides
             tl.to(dot, { scale: 1, autoAlpha: 1, duration: 0.4, ease: 'back.out(1.7)' })
                 .to(img, { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
                 .to(txt, { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, '-=0.6');

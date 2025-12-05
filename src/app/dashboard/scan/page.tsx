@@ -6,24 +6,20 @@ import { ArrowLeft, UploadCloud, ScanLine, Loader2, CheckCircle, XCircle, FileTe
 
 export default function MelonLensPage() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [imageBase64, setImageBase64] = useState<string | null>(null); // Untuk dikirim ke API
+    const [imageBase64, setImageBase64] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<any>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // 1. Handle File Upload & Convert to Base64
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // Preview URL
             setSelectedImage(URL.createObjectURL(file));
-            setResult(null); // Reset hasil sebelumnya
+            setResult(null);
 
-            // Convert to Base64 (Format yang dibutuhkan Gemini API)
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result as string;
-                // Hapus prefix "data:image/jpeg;base64," agar bersih saat dikirim
                 const cleanBase64 = base64String.split(',')[1];
                 setImageBase64(cleanBase64);
             };
@@ -31,7 +27,6 @@ export default function MelonLensPage() {
         }
     };
 
-    // 2. Fungsi Scan ke API
     const handleScan = async () => {
         if (!imageBase64) return;
 
@@ -67,7 +62,7 @@ export default function MelonLensPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                {/* --- KOLOM KIRI: UPLOAD AREA --- */}
+                {/* --- UPLOAD AREA --- */}
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 h-fit">
                     <div
                         onClick={() => fileInputRef.current?.click()}
@@ -106,7 +101,7 @@ export default function MelonLensPage() {
                     </button>
                 </div>
 
-                {/* --- KOLOM KANAN: HASIL ANALISIS --- */}
+                {/* --- HASIL ANALISIS --- */}
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 h-fit min-h-[400px] flex flex-col justify-center">
 
                     {!result && !loading && (

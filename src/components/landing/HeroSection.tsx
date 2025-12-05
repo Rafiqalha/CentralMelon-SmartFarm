@@ -14,7 +14,6 @@ export default function HeroSection() {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Hero Animation
             gsap.from(textRef.current, {
                 y: 100,
                 opacity: 0,
@@ -23,7 +22,6 @@ export default function HeroSection() {
                 delay: 0.2
             });
 
-            // About Animation (Scroll Trigger)
             gsap.from('.about-item', {
                 scrollTrigger: {
                     trigger: aboutRef.current,
@@ -42,12 +40,10 @@ export default function HeroSection() {
 
     return (
         <div ref={heroRef} className="w-full">
-            {/* HERO SECTION */}
             <div className="relative h-screen w-full bg-slate-900 flex items-center justify-center overflow-hidden">
-                {/* Background Image (Placeholder Melon/Greenhouse) */}
                 <div
                     className="absolute inset-0 opacity-40 bg-cover bg-center scale-110"
-                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2070&auto=format&fit=crop')" }}
+                    style={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1675040830254-1d5148d9d0dc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVsb258ZW58MHx8MHx8fDA%3D')" }}
                 ></div>
 
                 <div className="relative z-10 text-center px-4 max-w-5xl mx-auto" ref={textRef}>
@@ -76,7 +72,6 @@ export default function HeroSection() {
                 </div>
             </div>
 
-            {/* ABOUT SECTION */}
             <div ref={aboutRef} className="py-24 bg-white text-slate-900">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div className="about-item">

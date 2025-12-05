@@ -2,8 +2,6 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-
-// Components
 import Sidebar from '@/components/dashboard/Sidebar';
 import InventoryManager from '@/components/dashboard/InventoryManager';
 import SalesChart from '@/components/charts/SalesChart';
@@ -13,8 +11,6 @@ import UserNav from '@/components/UserNav';
 import POSSystem from '@/components/dashboard/POSSystem';
 import SalesReport from '@/components/dashboard/SalesReport';
 import SettingsView from '@/components/dashboard/SettingsView';
-
-// Icons & Utils
 import { Truck, TrendingUp, Activity, ScanLine, Search, Bell, Settings, Microscope } from 'lucide-react';
 import { calculateRegression } from '@/core/math/regression';
 import { simulateMelonQuality } from '@/core/math/rungeKutta';
@@ -27,7 +23,7 @@ export default async function DashboardPage({
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    // 1. SETUP SUPABASE
+   
     const cookieStore = await cookies();
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,17 +36,13 @@ export default async function DashboardPage({
         }
     );
 
-    // 2. SECURITY CHECK
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error || !user) redirect('/login');
 
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
     if (profile?.role !== 'admin') redirect('/');
 
-    // 3. FETCH DATA (Untuk Overview)
     const { data: salesDB } = await supabase.from('sales_data').select('*').order('month_index', { ascending: true });
-
-    // Hitung Statistik Sederhana
     const formattedSales = salesDB?.map((item: any) => ({ month: item.month_index, sales: item.total_sales })) || [];
     const regression = formattedSales.length > 0 ? calculateRegression(formattedSales) : { prediction: 0, slope: 0, intercept: 0, formula: "No Data" };
     const qualityData = simulateMelonQuality(100, 7, 0.15);
@@ -63,7 +55,6 @@ export default async function DashboardPage({
     };
     const routeResult = findShortestPath(logisticsGraph, "Kebun A", "Konsumen");
 
-    // 4. TENTUKAN VIEW BERDASARKAN URL
     const params = await searchParams;
     const currentView = typeof params.view === 'string' ? params.view : 'overview';
 
@@ -72,10 +63,10 @@ export default async function DashboardPage({
             {/* --- SIDEBAR (KIRI) --- */}
             <Sidebar />
 
-            {/* --- MAIN CONTENT (KANAN) --- */}
+            {/* --- MAIN CONTENT --- */}
             <main className="flex-1 ml-64 min-w-0">
 
-                {/* A. TOP HEADER BAR */}
+                {/* TOP HEADER BAR */}
                 <header className="bg-white px-8 py-4 flex justify-between items-center sticky top-0 z-40 border-b border-gray-200 shadow-sm">
                     {/* Search Bar Modern */}
                     <div className="relative w-96">
@@ -98,13 +89,13 @@ export default async function DashboardPage({
                     </div>
                 </header>
 
-                {/* B. DYNAMIC CONTENT AREA */}
+                {/* DYNAMIC CONTENT AREA */}
                 <div className="p-8">
 
                     {/* ---------------- VIEW: OVERVIEW ---------------- */}
                     {currentView === 'overview' && (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                            {/* Header Text (TOMBOL SCAN DIHAPUS DARI SINI) */}
+                            {/* Header Text */}
                             <div className="flex justify-between items-end">
                                 <div>
                                     <h2 className="text-2xl font-bold text-slate-800">Dashboard Overview</h2>
@@ -112,7 +103,7 @@ export default async function DashboardPage({
                                 </div>
                             </div>
 
-                            {/* Stats Cards Modern */}
+                            {/* Stats Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {/* Card 1: Penjualan */}
                                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition flex items-center justify-between group">
@@ -128,7 +119,7 @@ export default async function DashboardPage({
                                     </div>
                                 </div>
 
-                                {/* Card 2: Kualitas */}
+                                {/* Kualitas */}
                                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition flex items-center justify-between group">
                                     <div>
                                         <p className="text-sm font-medium text-gray-400 mb-1 group-hover:text-emerald-600 transition">Rata-rata Kualitas (Brix)</p>
@@ -140,7 +131,7 @@ export default async function DashboardPage({
                                     </div>
                                 </div>
 
-                                {/* Card 3: Prediksi Panen */}
+                                {/* Prediksi Panen */}
                                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition flex items-center justify-between group">
                                     <div>
                                         <p className="text-sm font-medium text-gray-400 mb-1 group-hover:text-emerald-600 transition">Prediksi Panen</p>
@@ -166,7 +157,7 @@ export default async function DashboardPage({
                         </div>
                     )}
 
-                    {/* ---------------- VIEW: INVENTORY ---------------- */}
+                    {/* ---------------- INVENTORY ---------------- */}
                     {currentView === 'inventory' && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
                             <div>
@@ -177,7 +168,7 @@ export default async function DashboardPage({
                         </div>
                     )}
 
-                    {/* ---------------- VIEW: KASIR (POS) ---------------- */}
+                    {/* ---------------- KASIR (POS) ---------------- */}
                     {currentView === 'pos' && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className="mb-6">
@@ -188,7 +179,7 @@ export default async function DashboardPage({
                         </div>
                     )}
 
-                    {/* ---------------- VIEW: LAPORAN PENJUALAN ---------------- */}
+                    {/* ---------------- LAPORAN PENJUALAN ---------------- */}
                     {currentView === 'report' && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className="mb-6">
@@ -199,7 +190,7 @@ export default async function DashboardPage({
                         </div>
                     )}
 
-                    {/* ---------------- VIEW: ANALISIS KUALITAS (BARU) ---------------- */}
+                    {/* ---------------- ANALISIS KUALITAS ---------------- */}
                     {currentView === 'analytics' && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
                             <div className="flex justify-between items-end">
@@ -250,7 +241,7 @@ export default async function DashboardPage({
                         </div>
                     )}
 
-                    {/* ---------------- VIEW: PENGATURAN ---------------- */}
+                    {/* ---------------- PENGATURAN ---------------- */}
                     {currentView === 'settings' && (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <SettingsView />

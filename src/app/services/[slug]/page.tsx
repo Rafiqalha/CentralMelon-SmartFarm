@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 import { use } from 'react';
 
-// --- DATA KONTEN ---
 const SERVICE_CONTENT: any = {
     'greenhouse-construction': {
         title: 'Precision Environment Engineering',
@@ -61,9 +60,6 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
 
     if (!data) return notFound();
 
-    // =========================================================
-    // LAYOUT 1: IOT INSTALLATION (DARK MODE TECH)
-    // =========================================================
     if (slug === 'iot-installation') {
         return (
             <main className="min-h-screen bg-[#0b1120] text-white overflow-hidden font-sans selection:bg-cyan-500 selection:text-white">
@@ -101,13 +97,13 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                                         <Play size={20} fill="currentColor" /> Live Simulator
                                     </button>
                                 </Link>
-                                <a href="https://wa.me/628123456789" target="_blank" className="w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-700 text-white font-bold rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2">
+                                <a href="https://wa.me/6285709477872" target="_blank" className="w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-700 text-white font-bold rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2">
                                     <MessageSquare size={20} /> Konsultasi Ahli
                                 </a>
                             </div>
                         </div>
 
-                        {/* Hero Visual (Interactive Card Look) */}
+                        {/* Hero Visual */}
                         <div className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-200">
                             <div className="absolute inset-0 bg-linear-to-tr from-cyan-500 to-blue-600 rounded-4xl blur-2xl opacity-20"></div>
                             <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700 p-8 rounded-4xl relative overflow-hidden">
@@ -176,9 +172,6 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
         );
     }
 
-    // =========================================================
-    // LAYOUT 2: AGRO EDUCATION (MODERN ACADEMY)
-    // =========================================================
     if (slug === 'agro-education') {
         return (
             <main className="min-h-screen bg-[#f8fafc] text-slate-900 font-sans selection:bg-emerald-200">
@@ -242,7 +235,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                 <div className="max-w-7xl mx-auto px-6 py-20">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-                        {/* LEFT: CURRICULUM */}
+                        {/* CURRICULUM */}
                         <div className="lg:col-span-2 space-y-12">
                             <div>
                                 <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
@@ -285,7 +278,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                             </div>
                         </div>
 
-                        {/* RIGHT: DETAILS & CTA */}
+                        {/* DETAILS & CTA */}
                         <div className="space-y-8">
                             <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 sticky top-24">
                                 <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -304,7 +297,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                                 <div className="space-y-3">
                                     <p className="text-xs text-center text-gray-400 mb-2">Slot terbatas bulan ini!</p>
                                     <a
-                                        href="https://wa.me/628123456789?text=Halo%20Admin,%20saya%20tertarik%20daftar%20kelas%20Agro%20Education"
+                                        href="https://wa.me/6285709477872?text=Halo%20Admin,%20saya%20tertarik%20daftar%20kelas%20Agro%20Education"
                                         target="_blank"
                                         className="block w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-center transition shadow-lg shadow-emerald-200 items-center justify-center gap-2"
                                     >
@@ -332,14 +325,11 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
         );
     }
 
-    // =========================================================
-    // LAYOUT 3: GREENHOUSE CONSTRUCTION (INDUSTRIAL AGRITECH)
-    // =========================================================
     return (
         <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-900 selection:text-white">
             <Navbar />
 
-            {/* 1. HERO SECTION: Industrial Look */}
+            {/* HERO SECTION: Industrial Look */}
             <div className="relative pt-32 pb-24 px-6 bg-slate-900 text-white overflow-hidden rounded-b-[4rem]">
                 {/* Blueprint Grid Background */}
                 <div className="absolute inset-0 opacity-20 pointer-events-none"
@@ -378,7 +368,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                         </div>
                     </div>
 
-                    {/* Visual: Image with Blueprint Overlay */}
+                    {/* Image with Blueprint Overlay */}
                     <div className="flex-1 relative w-full aspect-video lg:aspect-square max-h-[500px]">
                         <div className="absolute inset-0 border-2 border-dashed border-emerald-500/30 rounded-xl z-20"></div>
                         {/* Crosshairs */}
@@ -405,11 +395,11 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                 </div>
             </div>
 
-            {/* 2. SPECS & FEATURES: Grid Layout */}
+            {/* SPECS & FEATURES: Grid Layout */}
             <div className="max-w-7xl mx-auto px-6 py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                    {/* LEFT: Structural Features */}
+                    {/* Structural Features */}
                     <div className="lg:col-span-7 space-y-8">
                         <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
                             <Maximize className="text-emerald-600" /> Structural Integrity
@@ -443,7 +433,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                         </div>
                     </div>
 
-                    {/* RIGHT: Technical Specs Table */}
+                    {/* Technical Specs Table */}
                     <div className="lg:col-span-5">
                         <div className="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,1)] sticky top-24">
                             <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 uppercase tracking-wide">
@@ -462,7 +452,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                             <div className="mt-8 pt-6 border-t-2 border-slate-900 border-dashed">
                                 <p className="text-xs text-slate-500 mb-4 text-center">Butuh penawaran resmi (RAB)?</p>
                                 <a
-                                    href={`https://wa.me/628123456789?text=Halo%20Central%20Melon,%20saya%20tertarik%20dengan%20konstruksi%20Greenhouse.`}
+                                    href={`https://wa.me/6285709477872?text=Halo%20Central%20Melon,%20saya%20tertarik%20dengan%20konstruksi%20Greenhouse.`}
                                     target="_blank"
                                     className="block w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition uppercase tracking-wider"
                                 >

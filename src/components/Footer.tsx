@@ -7,7 +7,7 @@ export default function Footer() {
     return (
         <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">
 
-            {/* 1. BAGIAN ATAS: Newsletter & CTA */}
+            {/* Newsletter & CTA */}
             <div className="border-b border-white/5 bg-slate-900/50">
                 <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div>
@@ -27,10 +27,10 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* 2. BAGIAN TENGAH: Informasi Utama */}
+            {/* Informasi Utama */}
             <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
-                {/* Kolom 1: Brand & About */}
+                {/* Brand & About */}
                 <div className="space-y-6">
                     <div className="flex items-center gap-2 text-white">
                         <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
@@ -51,7 +51,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Kolom 2: Navigasi Cepat */}
+                {/* Navigasi Cepat */}
                 <div>
                     <h3 className="text-white font-bold text-lg mb-6">Perusahaan</h3>
                     <ul className="space-y-4 text-sm">
@@ -63,7 +63,7 @@ export default function Footer() {
                     </ul>
                 </div>
 
-                {/* Kolom 3: Kontak Resmi */}
+                {/* Kontak Resmi */}
                 <div>
                     <h3 className="text-white font-bold text-lg mb-6">Hubungi Kami</h3>
                     <ul className="space-y-4 text-sm">
@@ -73,16 +73,16 @@ export default function Footer() {
                         </li>
                         <li className="flex items-center gap-3">
                             <Phone className="shrink-0 text-emerald-500" size={20} />
-                            <span>+62 812-3456-7890</span>
+                            <span>085709477872</span>
                         </li>
                         <li className="flex items-center gap-3">
                             <Mail className="shrink-0 text-emerald-500" size={20} />
-                            <span>corporate@centralmelon.com</span>
+                            <span>admin@centralmelon.com</span>
                         </li>
                     </ul>
                 </div>
 
-                {/* Kolom 4: Peta Lokasi (Google Maps) */}
+                {/* Peta Lokasi (Google Maps) */}
                 <div>
                     <h3 className="text-white font-bold text-lg mb-6">Lokasi Kantor</h3>
                     <div className="rounded-xl overflow-hidden border border-slate-700 h-48 w-full relative bg-slate-800 shadow-lg">
@@ -111,7 +111,7 @@ export default function Footer() {
 
             </div>
 
-            {/* 3. BAGIAN BAWAH: Copyright */}
+            {/* Copyright */}
             <div className="bg-black/20 py-6 border-t border-white/5">
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                     <p>© {new Date().getFullYear()} Central Melon Tbk. All rights reserved.</p>

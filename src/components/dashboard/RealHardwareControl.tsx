@@ -4,28 +4,22 @@ import { useState, useRef, useEffect } from 'react';
 import { Usb, Lock, Unlock, Activity, Zap, Volume2, Mic } from 'lucide-react';
 
 export default function RealHardwareControl() {
-    // State Koneksi & Data
     const [isConnected, setIsConnected] = useState(false);
     const [data, setData] = useState({ jarak: 0, pintu: 'TUTUP', isManual: false });
     const [logs, setLogs] = useState<string[]>([]);
-
-    // State Jarvis UI
     const [jarvisText, setJarvisText] = useState("SYSTEM READY. WAITING FOR INPUT...");
     const [isSpeaking, setIsSpeaking] = useState(false);
-
-    // Refs
     const portRef = useRef<any>(null);
     const readerRef = useRef<any>(null);
     const writerRef = useRef<any>(null);
     const keepReading = useRef(false);
     const prevDoorStatus = useRef('TUTUP');
 
-    // --- LOGIKA TYPING EFFECT ---
     const typeWriter = (text: string) => {
         setIsSpeaking(true);
-        setJarvisText(""); // Reset text
+        setJarvisText("");
         let i = 0;
-        const speed = 30; // Kecepatan ketik (ms)
+        const speed = 30; 
 
         const typing = setInterval(() => {
             if (i < text.length) {
@@ -33,26 +27,22 @@ export default function RealHardwareControl() {
                 i++;
             } else {
                 clearInterval(typing);
-                setTimeout(() => setIsSpeaking(false), 2000); // Stop animasi bicara setelah selesai
+                setTimeout(() => setIsSpeaking(false), 2000); 
             }
         }, speed);
     };
 
-    // --- LOGIKA JARVIS VOICE ---
     const playJarvisVoice = () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
 
             const textToSpeak = "Sugeng rawuh. Selamat datang di Central Melon Smart Greenhouse.";
 
-            // 1. Jalankan Visual Typing
             typeWriter("> Sugeng rawuh. Selamat datang di Central Melon Smart Greenhouse.");
 
-            // 2. Jalankan Audio
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
             const voices = window.speechSynthesis.getVoices();
 
-            // Cari suara Indonesia atau default
             const indoVoice = voices.find(v => v.name.includes('Google Bahasa Indonesia')) ||
                 voices.find(v => v.lang === 'id-ID') ||
                 voices[0];
@@ -66,19 +56,15 @@ export default function RealHardwareControl() {
         }
     };
 
-    // --- EFEK PEMICU SUARA ---
     useEffect(() => {
         if (prevDoorStatus.current === 'TUTUP' && data.pintu === 'BUKA') {
             playJarvisVoice();
         } else if (prevDoorStatus.current === 'BUKA' && data.pintu === 'TUTUP') {
-            // Optional: Efek saat tutup
             setJarvisText("DOOR CLOSED. SECURE MODE ACTIVE.");
         }
         prevDoorStatus.current = data.pintu;
     }, [data.pintu]);
 
-
-    // --- FUNGSI SERIAL (SAMA SEPERTI SEBELUMNYA) ---
     const connectSerial = async () => {
         if (!('serial' in navigator)) {
             alert('Browser Anda tidak mendukung Web Serial API.');
@@ -138,7 +124,6 @@ export default function RealHardwareControl() {
         if (!writerRef.current) return;
         try {
             await writerRef.current.write(cmd + "\n");
-            // Feedback visual saat kirim perintah
             setJarvisText(`> EXECUTING COMMAND: ${cmd}...`);
         } catch (e) { console.error(e); }
     };

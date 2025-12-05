@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, Sprout, LogOut, LayoutDashboard, User as UserIcon, ChevronDown, ShoppingCart } from 'lucide-react';
-// PERBAIKAN IMPORT: Gunakan createClient
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { useCart } from '@/context/CartContext';
@@ -22,17 +21,14 @@ export default function Navbar() {
     const pathname = usePathname();
     const { totalItems } = useCart();
 
-    // PERBAIKAN: Inisialisasi Supabase Client di dalam komponen
     const supabase = createClient();
 
-    // --- STATE ---
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [role, setRole] = useState<string | null>(null);
 
-    // --- 1. AUTH & ROLE ---
     useEffect(() => {
         const fetchUserData = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -61,14 +57,12 @@ export default function Navbar() {
         return () => subscription.unsubscribe();
     }, []);
 
-    // --- 2. SCROLL DETECTION ---
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // --- 3. SMART COLOR LOGIC ---
     const hasDarkHero =
         pathname === '/' ||
         pathname === '/about' ||

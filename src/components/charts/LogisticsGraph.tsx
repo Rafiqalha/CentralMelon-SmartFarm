@@ -1,11 +1,10 @@
 'use client';
 
 interface GraphProps {
-    route: string[]; // Hasil dari Dijkstra (["Kebun A", "Gudang Pusat", ...])
+    route: string[];
 }
 
 export default function LogisticsGraph({ route }: GraphProps) {
-    // Koordinat manual untuk visualisasi yang rapi (Bisa dibuat dinamis nanti)
     const nodes: Record<string, { x: number; y: number }> = {
         "Kebun A": { x: 50, y: 150 },
         "Gudang Pusat": { x: 200, y: 100 },
@@ -15,7 +14,6 @@ export default function LogisticsGraph({ route }: GraphProps) {
         "Konsumen": { x: 500, y: 150 },
     };
 
-    // Definisi semua koneksi (Edge) yang mungkin
     const edges = [
         { from: "Kebun A", to: "Gudang Pusat" },
         { from: "Kebun A", to: "Pasar Lokal" },
@@ -26,13 +24,10 @@ export default function LogisticsGraph({ route }: GraphProps) {
         { from: "Bandara", to: "Konsumen" },
     ];
 
-    // Helper: Cek apakah edge ini adalah bagian dari rute terpilih
     const isActiveEdge = (u: string, v: string) => {
         // Cari index u dan v di dalam array route
         const idxU = route.indexOf(u);
         const idxV = route.indexOf(v);
-
-        // Aktif jika keduanya ada di rute DAN bersebelahan (berurutan)
         return idxU !== -1 && idxV !== -1 && Math.abs(idxU - idxV) === 1;
     };
 
@@ -41,7 +36,7 @@ export default function LogisticsGraph({ route }: GraphProps) {
             <h3 className="text-lg font-bold text-gray-800 mb-4">Optimasi Rute Logistik (Dijkstra)</h3>
             <div className="w-full overflow-x-auto flex justify-center">
                 <svg width="600" height="250" className="border border-gray-50 rounded-lg bg-slate-50">
-                    {/* 1. GAMBAR GARIS (EDGES) */}
+                    {/* EDGES */}
                     {edges.map((edge, i) => {
                         const start = nodes[edge.from];
                         const end = nodes[edge.to];
@@ -52,14 +47,14 @@ export default function LogisticsGraph({ route }: GraphProps) {
                                 key={i}
                                 x1={start.x} y1={start.y}
                                 x2={end.x} y2={end.y}
-                                stroke={active ? "#10B981" : "#CBD5E1"} // Hijau jika rute aktif, abu jika tidak
+                                stroke={active ? "#10B981" : "#CBD5E1"}
                                 strokeWidth={active ? 4 : 2}
-                                strokeDasharray={active ? "0" : "5,5"} // Putus-putus jika tidak aktif
+                                strokeDasharray={active ? "0" : "5,5"} 
                             />
                         );
                     })}
 
-                    {/* 2. GAMBAR TITIK (NODES) */}
+                    {/* NODES */}
                     {Object.entries(nodes).map(([name, pos]) => {
                         const isActive = route.includes(name);
                         return (
@@ -79,7 +74,7 @@ export default function LogisticsGraph({ route }: GraphProps) {
                                 >
                                     {name}
                                 </text>
-                                {/* Icon/Inisial di dalam lingkaran */}
+                                {/* Icon */}
                                 <text
                                     x={pos.x} y={pos.y + 5}
                                     textAnchor="middle"

@@ -25,8 +25,6 @@ export async function POST(req: Request) {
         6. Jangan gunakan markdown, format khusus, atau simbol — hasil akhir harus berupa teks polos saja.
     `;
 
-        // --- UPDATE: GUNAKAN GEMINI 2.0 FLASH (Sesuai list akunmu) ---
-        // Kita pakai endpoint 'v1beta' karena model 2.0 biasanya ada di sana
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         const googleResponse = await fetch(url, {
@@ -43,7 +41,6 @@ export async function POST(req: Request) {
 
         const data = await googleResponse.json();
 
-        // Cek error dari Google
         if (!googleResponse.ok) {
             console.error("Google API Error:", JSON.stringify(data, null, 2));
             throw new Error(data.error?.message || "Gagal menghubungi Google AI");

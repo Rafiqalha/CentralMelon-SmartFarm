@@ -6,7 +6,6 @@ export async function GET(request: Request) {
     const requestUrl = new URL(request.url);
     const code = requestUrl.searchParams.get('code');
 
-    // Default tujuan adalah Home ('/')
     let next = '/';
 
     if (code) {
@@ -26,18 +25,15 @@ export async function GET(request: Request) {
                                 cookieStore.set(name, value, options)
                             );
                         } catch {
-                            // Abaikan error di server component
                         }
                     },
                 },
             }
         );
 
-        // 1. Tukar Code jadi Session
         const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
-            // 2. CEK ROLE USER SETELAH LOGIN
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
@@ -47,18 +43,16 @@ export async function GET(request: Request) {
                     .eq('id', user.id)
                     .single();
 
-                // 3. LOGIKA REDIRECT BERDASARKAN ROLE
                 if (profile?.role === 'admin') {
-                    next = '/dashboard'; // Admin masuk Dashboard
+                    next = '/dashboard'; 
                 } else {
-                    next = '/'; // User biasa/Google masuk Home
+                    next = '/'; 
                 }
             }
 
             return NextResponse.redirect(`${requestUrl.origin}${next}`);
         }
     }
-
-    // Jika gagal login, kembalikan ke halaman login
+    
     return NextResponse.redirect(`${requestUrl.origin}/login?error=auth`);
 }

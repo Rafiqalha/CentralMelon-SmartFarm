@@ -27,7 +27,6 @@ export default function ConfirmationModal({
 }: ConfirmationModalProps) {
     if (!isOpen) return null;
 
-    // Warna berdasarkan tipe
     const colors = {
         danger: { bg: 'bg-red-50', icon: 'text-red-500', btn: 'bg-red-600 hover:bg-red-700' },
         success: { bg: 'bg-emerald-50', icon: 'text-emerald-500', btn: 'bg-emerald-600 hover:bg-emerald-700' },

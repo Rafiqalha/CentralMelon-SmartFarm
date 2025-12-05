@@ -2,12 +2,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    // 1. Deklarasi variabel di luar try-catch agar bisa diakses di catch
     let address = "";
-
     try {
         const body = await req.json();
-        address = body.address || ""; // Isi variabel address
+        address = body.address || "";
 
         const apiKey = process.env.GOOGLE_AI_API_KEY;
 
@@ -17,8 +15,6 @@ export async function POST(req: Request) {
 
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-        // Prompt Engineering untuk Google Maps Link
         const prompt = `
       Anda adalah asisten logistik cerdas. Tugas anda adalah membuat Link Google Maps Search yang akurat berdasarkan alamat yang ditulis user (Indonesia).
 
@@ -39,22 +35,14 @@ export async function POST(req: Request) {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         let text = response.text();
-
-        // Cleaning JSON output
         text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-
         const jsonResult = JSON.parse(text);
-
         return NextResponse.json(jsonResult);
 
     } catch (error: any) {
         console.error("Location AI Error:", error);
-
-        // Fallback Link Manual
-        // Sekarang variabel 'address' sudah dikenali karena dideklarasikan di scope luar
         const safeAddress = address ? encodeURIComponent(address) : "Indonesia";
         const fallbackLink = `https://www.google.com/maps/search/?api=1&query=${safeAddress}`;
-
         return NextResponse.json({ map_link: fallbackLink });
     }
 }

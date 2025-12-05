@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-// 1. TAMBAHKAN 'Globe' DI SINI
 import { LayoutDashboard, Package, TrendingUp, Settings, LogOut, Sprout, Globe, ShoppingBasket, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';

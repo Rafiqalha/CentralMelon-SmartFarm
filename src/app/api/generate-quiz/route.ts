@@ -5,13 +5,9 @@ export async function POST(req: Request) {
     try {
         const { topic, difficulty } = await req.json();
         const apiKey = process.env.GOOGLE_AI_API_KEY;
-
         if (!apiKey) return NextResponse.json({ error: "API Key Missing" }, { status: 500 });
-
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-        // Prompt yang sangat spesifik agar outputnya konsisten
         const prompt = `
       Bertindaklah sebagai Dosen Agronomi Spesialis Melon.
       Buatkan 5 soal kuis interaktif tentang topik: "${topic}" dengan tingkat kesulitan "${difficulty}".

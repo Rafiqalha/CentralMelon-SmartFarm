@@ -10,7 +10,6 @@ import {
     Filler,
 } from 'chart.js';
 
-// Mendaftarkan modul chart.js yang dibutuhkan
 ChartJS.register(
     CategoryScale,
     LinearScale,

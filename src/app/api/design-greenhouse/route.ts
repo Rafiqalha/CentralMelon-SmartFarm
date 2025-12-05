@@ -2,7 +2,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    // 1. HITUNG MATEMATIKA DULU (WAJIB JALAN)
     let layoutData = {
         total_beds: 0,
         pathway_width: "0 cm",
@@ -11,21 +10,13 @@ export async function POST(req: Request) {
 
     try {
         const { landWidth, landLength, plantType, location } = await req.json();
-
-        // --- LOGIKA MATEMATIKA (HARD CODE) ---
-        // Rumus: (Lebar Lahan - Buffer) / (Lebar Bedengan + Jalan)
-        const bedWidth = 1.2; // meter (Standar Melon)
-        const pathWidth = 0.8; // meter
+        const bedWidth = 1.2;
+        const pathWidth = 0.8; 
         const laneWidth = bedWidth + pathWidth;
-
-        // Kita asumsikan bedengan memanjang mengikuti sisi terpanjang lahan
         const longSide = Math.max(landWidth, landLength);
         const shortSide = Math.min(landWidth, landLength);
-
-        const numberOfBeds = Math.floor((shortSide - 1) / laneWidth); // -1m untuk buffer pinggir
-        const effectiveBedLength = longSide - 2; // -2m buffer depan belakang
-
-        // Populasi: (Panjang Bedengan / 0.5m jarak tanam) * 2 baris (zigzag)
+        const numberOfBeds = Math.floor((shortSide - 1) / laneWidth); 
+        const effectiveBedLength = longSide - 2; 
         const plantsPerBed = Math.floor(effectiveBedLength / 0.5) * 2;
         const totalCapacity = numberOfBeds * plantsPerBed;
 
@@ -35,7 +26,6 @@ export async function POST(req: Request) {
             total_capacity: totalCapacity > 0 ? totalCapacity : 0
         };
 
-        // --- 2. LOGIKA AI (GEMINI) ---
         const apiKey = process.env.GOOGLE_AI_API_KEY;
         let aiResult = null;
 
@@ -66,17 +56,13 @@ export async function POST(req: Request) {
                 const result = await model.generateContent(prompt);
                 const response = await result.response;
                 let text = response.text();
-                // Bersihkan format markdown ```json ... ```
                 text = text.replace(/```json/g, "").replace(/```/g, "").trim();
                 aiResult = JSON.parse(text);
             } catch (aiError) {
                 console.error("Gemini Error (Limit/Network):", aiError);
-                // Jika AI error, biarkan aiResult null, nanti kita pakai fallback
             }
         }
 
-        // --- 3. FALLBACK DATA (JIKA AI GAGAL/LIMIT) ---
-        // Ini data standar industri agar UI tidak kosong melompong
         const defaultSpecs = {
             type: "Standard Tunnel GH",
             reason: "Rekomendasi standar untuk efisiensi biaya dan sirkulasi udara yang cukup.",
@@ -90,12 +76,9 @@ export async function POST(req: Request) {
             }
         };
 
-        // --- 4. MERGE HASIL AKHIR ---
-        // Prioritas: Hasil AI -> kalau error pakai Default -> Gabung dengan hitungan Matematika
         const finalResult = {
-            ...(aiResult || defaultSpecs), // Pakai AI, kalau null pakai Default
-            layout: layoutData, // Data matematika pasti masuk
-            // Mapping ulang agar sesuai UI jika format AI beda dikit
+            ...(aiResult || defaultSpecs), 
+            layout: layoutData, 
             cooling_system: aiResult?.specs?.cooling || defaultSpecs.specs.cooling
         };
 
@@ -103,7 +86,6 @@ export async function POST(req: Request) {
 
     } catch (error) {
         console.error("Server Error:", error);
-        // Return Fallback Terburuk (supaya app tidak crash)
         return NextResponse.json({
             type: "Basic Design",
             reason: "Mode offline: Menampilkan rekomendasi dasar.",

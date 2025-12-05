@@ -3,7 +3,7 @@
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import { Sprout, Ruler, MapPin, Wind, Sun, ArrowRight, Loader2, Hammer, Droplets, Grid } from 'lucide-react';
-import { motion } from 'framer-motion'; // Pastikan install framer-motion jika belum: npm install framer-motion
+import { motion } from 'framer-motion';
 
 export default function GreenhouseDesigner() {
     const [step, setStep] = useState(1);
@@ -19,7 +19,7 @@ export default function GreenhouseDesigner() {
 
     const handleGenerate = async () => {
         setLoading(true);
-        setStep(2); // Masuk mode loading visual
+        setStep(2); 
 
         try {
             const res = await fetch('/api/design-greenhouse', {
@@ -29,7 +29,7 @@ export default function GreenhouseDesigner() {
             });
             const data = await res.json();
             setResult(data);
-            setStep(3); // Tampilkan hasil
+            setStep(3); 
         } catch (error) {
             alert("Gagal generate desain. Coba lagi.");
             setStep(1);
@@ -59,7 +59,7 @@ export default function GreenhouseDesigner() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden min-h-[600px]">
 
-                    {/* --- KOLOM KIRI: INPUT FORM --- */}
+                    {/* --- INPUT FORM --- */}
                     <div className="lg:col-span-4 p-8 bg-slate-900 text-white flex flex-col justify-center relative overflow-hidden">
                         {/* Dekorasi Background */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
@@ -76,7 +76,6 @@ export default function GreenhouseDesigner() {
                                             <input
                                                 type="number"
                                                 value={formData.landWidth}
-                                                // PERBAIKAN DI SINI: Tambahkan '|| 0'
                                                 onChange={(e) => setFormData({ ...formData, landWidth: parseInt(e.target.value) || 0 })}
                                                 className="bg-transparent w-full outline-none font-bold text-lg"
                                             />
@@ -91,7 +90,6 @@ export default function GreenhouseDesigner() {
                                             <input
                                                 type="number"
                                                 value={formData.landLength}
-                                                // PERBAIKAN DI SINI: Tambahkan '|| 0'
                                                 onChange={(e) => setFormData({ ...formData, landLength: parseInt(e.target.value) || 0 })}
                                                 className="bg-transparent w-full outline-none font-bold text-lg"
                                             />
@@ -144,10 +142,10 @@ export default function GreenhouseDesigner() {
                         </div>
                     </div>
 
-                    {/* --- KOLOM KANAN: RESULT AREA --- */}
+                    {/* --- RESULT AREA --- */}
                     <div className="lg:col-span-8 p-8 bg-gray-50 flex flex-col relative min-h-[500px]">
 
-                        {/* STATE 1: IDLE */}
+                        {/* IDLE */}
                         {step === 1 && (
                             <div className="flex-1 flex flex-col items-center justify-center text-center opacity-50">
                                 <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm">
@@ -158,7 +156,7 @@ export default function GreenhouseDesigner() {
                             </div>
                         )}
 
-                        {/* STATE 2: LOADING ANIMATION */}
+                        {/* LOADING ANIMATION */}
                         {step === 2 && (
                             <div className="flex-1 flex flex-col items-center justify-center text-center">
                                 <motion.div
@@ -175,7 +173,7 @@ export default function GreenhouseDesigner() {
                             </div>
                         )}
 
-                        {/* STATE 3: RESULT UI PREMIUM */}
+                        {/* RESULT UI PREMIUM */}
                         {step === 3 && result && (
                             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 h-full flex flex-col gap-6">
 
@@ -265,7 +263,7 @@ export default function GreenhouseDesigner() {
 
                                     {/* Area Gambar (Responsive Flex) */}
                                     <div className="flex-1 border-2 border-dashed border-slate-600 rounded-xl p-4 flex justify-center gap-2 items-center relative bg-[#0f172a]/50">
-                                        {/* Render Baris Bedengan (Maksimal 10 agar muat di layar) */}
+                                        {/* Render Baris Bedengan */}
                                         {Array.from({ length: Math.min(result?.layout?.total_beds || 0, 10) }).map((_, i) => (
                                             <div key={i} className="h-full w-full max-w-10 bg-emerald-600/20 border border-emerald-500/50 rounded flex flex-col items-center justify-center gap-1 group relative">
                                                 {/* Tanaman (Dots) */}
@@ -297,7 +295,7 @@ export default function GreenhouseDesigner() {
 
                                 {/* 4. TOMBOL AKSI */}
                                 <a
-                                    href={`https://wa.me/628123456789?text=Halo%20Central%20Melon,%20saya%20tertarik%20dengan%20desain%20${encodeURIComponent(result?.type)}%20untuk%20lahan%20${formData.landWidth}x${formData.landLength}m.`}
+                                    href={`https://wa.me/6285709477872?text=Halo%20Central%20Melon,%20saya%20tertarik%20dengan%20desain%20${encodeURIComponent(result?.type)}%20untuk%20lahan%20${formData.landWidth}x${formData.landLength}m.`}
                                     target="_blank"
                                     className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 transition hover:scale-[1.01] active:scale-95"
                                 >

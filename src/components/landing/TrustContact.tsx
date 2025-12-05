@@ -13,7 +13,7 @@ export default function TrustContact() {
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 bg-emerald-400 rounded-full"></div>
                                 <div>
-                                    <h4 className="font-bold">Bapak Hartono</h4>
+                                    <h4 className="font-bold">Bapak Andi</h4>
                                     <p className="text-sm text-emerald-200">Petani Mitra, Blitar</p>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@ export default function TrustContact() {
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 bg-purple-400 rounded-full"></div>
                                 <div>
-                                    <h4 className="font-bold">Ibu Sarah</h4>
+                                    <h4 className="font-bold">Ibu Nur</h4>
                                     <p className="text-sm text-emerald-200">Customer, Surabaya</p>
                                 </div>
                             </div>

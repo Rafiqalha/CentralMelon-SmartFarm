@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, ComposedChart
 } from 'recharts';
-import { supabase } from '@/lib/supabase'; // Pastikan path ini benar (Client Client)
-import { calculateRegression } from '@/core/math/regression'; // Pastikan path ini benar
+import { supabase } from '@/lib/supabase';
+import { calculateRegression } from '@/core/math/regression'; 
 import { TrendingUp, RefreshCw, Wifi } from 'lucide-react';
 
 interface SalesChartProps {
     historical: any[];
-    prediction: any; // Data awal dari server (SSR) untuk menghindari layout shift
+    prediction: any; 
 }
 
 export default function SalesChart({ historical: initialData }: SalesChartProps) {
@@ -18,7 +18,6 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
     const [predictionData, setPredictionData] = useState<any>(null);
     const [isLive, setIsLive] = useState(false);
 
-    // 1. Hitung Regresi (Prediksi) setiap kali data berubah
     useEffect(() => {
         if (data.length > 0) {
             const result = calculateRegression(data);
@@ -26,9 +25,7 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
         }
     }, [data]);
 
-    // 2. Gabungkan Data Historis + Data Prediksi untuk Grafik
     const chartData = data.map((item, index) => {
-        // Rumus Linear: y = mx + c
         const predictedSales = predictionData
             ? (predictionData.slope * (index + 1)) + predictionData.intercept
             : 0;
@@ -36,11 +33,10 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
         return {
             name: `Bulan ${item.month}`,
             actual: item.sales,
-            predicted: Math.round(predictedSales), // Garis putus-putus
+            predicted: Math.round(predictedSales), 
         };
     });
 
-    // Tambahkan 1 bulan ke depan untuk prediksi murni
     if (predictionData && data.length > 0) {
         const nextMonthIndex = data.length + 1;
         const nextMonthPrediction = (predictionData.slope * nextMonthIndex) + predictionData.intercept;
@@ -51,17 +47,12 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
         });
     }
 
-    // 3. REAL-TIME SUBSCRIPTION
     useEffect(() => {
         const channel = supabase
             .channel('realtime-sales')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'sales_data' }, (payload) => {
                 setIsLive(true);
-                // Refresh data jika ada perubahan
-                // (Cara ideal: update state lokal berdasarkan payload, tapi fetch ulang lebih aman untuk akurasi urutan)
                 fetchLatestData();
-
-                // Matikan indikator live setelah 2 detik
                 setTimeout(() => setIsLive(false), 2000);
             })
             .subscribe();
@@ -84,7 +75,6 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
         }
     };
 
-    // Custom Tooltip yang Elegan
     const CustomTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
             return (
@@ -152,7 +142,7 @@ export default function SalesChart({ historical: initialData }: SalesChartProps)
                         />
                         <Tooltip content={<CustomTooltip />} />
 
-                        {/* Garis Prediksi AI (Putus-putus Merah) */}
+                        {/* Garis Prediksi AI (Merah) */}
                         <Line
                             type="monotone"
                             dataKey="predicted"

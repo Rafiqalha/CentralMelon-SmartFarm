@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Search, Plus, Minus, Trash2, ShoppingCart, Banknote, ShoppingBasket, Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
 export default function POSSystem() {
@@ -11,9 +11,8 @@ export default function POSSystem() {
     const [products, setProducts] = useState<any[]>([]);
     const [cart, setCart] = useState<any[]>([]);
     const [search, setSearch] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [processing, setProcessing] = useState(false);
     const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
     // 1. Fetch Produk
     useEffect(() => {
@@ -45,9 +44,10 @@ export default function POSSystem() {
         setCart(cart.filter(c => c.id !== id));
     };
 
-    const totalAmount = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    // FIX: Gunakan (item.price || 0) agar tidak error jika null
+    const totalAmount = cart.reduce((acc, item) => acc + ((item.price || 0) * item.qty), 0);
 
-    // 3. Proses Transaksi (Fungsi yang hilang tadi)
+    // 3. Proses Transaksi
     const executeCheckout = async () => {
         setProcessing(true);
         try {
@@ -66,8 +66,9 @@ export default function POSSystem() {
                 product_id: item.id,
                 product_name: item.name,
                 quantity: item.qty,
-                price_at_transaction: item.price,
-                subtotal: item.price * item.qty
+                // FIX: Fallback harga 0 jika null
+                price_at_transaction: item.price || 0,
+                subtotal: (item.price || 0) * item.qty
             }));
 
             const { error: itemsError } = await supabase.from('transaction_items').insert(itemsData);
@@ -83,12 +84,10 @@ export default function POSSystem() {
                 }
             }
 
-            // SUKSES!
             toast.success("Transaksi Berhasil Disimpan!", { duration: 4000 });
-            setCart([]); // Reset Cart
-            setIsCheckoutModalOpen(false); // Tutup Modal
+            setCart([]);
+            setIsCheckoutModalOpen(false);
 
-            // Refresh Data Produk
             const { data } = await supabase.from('products').select('*').order('name');
             if (data) setProducts(data);
 
@@ -99,12 +98,10 @@ export default function POSSystem() {
         }
     };
 
-    // Filter Produk
     const filteredProducts = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
 
     return (
         <>
-            {/* MODAL KONFIRMASI */}
             <ConfirmationModal
                 isOpen={isCheckoutModalOpen}
                 title="Konfirmasi Pembayaran"
@@ -120,13 +117,12 @@ export default function POSSystem() {
 
                 {/* --- BAGIAN KIRI: KATALOG PRODUK --- */}
                 <div className="flex-1 flex flex-col bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
-                    {/* Header Pencarian */}
                     <div className="p-6 border-b border-gray-100 flex gap-4">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                             <input
                                 type="text"
-                                placeholder="Cari nama produk atau scan barcode..."
+                                placeholder="Cari nama produk..."
                                 className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none"
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
@@ -134,7 +130,6 @@ export default function POSSystem() {
                         </div>
                     </div>
 
-                    {/* Tabel Produk */}
                     <div className="flex-1 overflow-y-auto p-0">
                         <table className="w-full text-left">
                             <thead className="bg-gray-50 sticky top-0 z-10 text-xs font-bold text-gray-500 uppercase">
@@ -149,7 +144,8 @@ export default function POSSystem() {
                                 {filteredProducts.map((p) => (
                                     <tr key={p.id} className="hover:bg-emerald-50/50 transition group">
                                         <td className="p-4 font-medium text-slate-800">{p.name}</td>
-                                        <td className="p-4 text-slate-600">Rp {p.price.toLocaleString()}</td>
+                                        {/* FIX: Tambahkan (p.price || 0) */}
+                                        <td className="p-4 text-slate-600">Rp {(p.price || 0).toLocaleString()}</td>
                                         <td className={`p-4 text-center font-bold ${p.stock < 10 ? 'text-red-500' : 'text-emerald-600'}`}>
                                             {p.stock}
                                         </td>
@@ -178,7 +174,6 @@ export default function POSSystem() {
                         <p className="text-slate-400 text-xs mt-1">Transaksi Offline / Walk-in</p>
                     </div>
 
-                    {/* List Item Keranjang */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-3">
                         {cart.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-slate-500 opacity-50">
@@ -190,7 +185,8 @@ export default function POSSystem() {
                                 <div key={item.id} className="bg-slate-800 p-3 rounded-xl flex justify-between items-center animate-in slide-in-from-right-2">
                                     <div>
                                         <p className="font-bold text-sm text-white">{item.name}</p>
-                                        <p className="text-xs text-emerald-400">Rp {item.price.toLocaleString()}</p>
+                                        {/* FIX: Tambahkan (item.price || 0) */}
+                                        <p className="text-xs text-emerald-400">Rp {(item.price || 0).toLocaleString()}</p>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="flex items-center bg-slate-700 rounded-lg">
@@ -207,7 +203,6 @@ export default function POSSystem() {
                         )}
                     </div>
 
-                    {/* Footer Pembayaran */}
                     <div className="p-6 bg-slate-900 rounded-b-3xl border-t border-slate-700">
                         <div className="flex justify-between mb-2 text-slate-400 text-sm">
                             <span>Subtotal</span>

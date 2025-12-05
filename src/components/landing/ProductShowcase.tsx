@@ -11,18 +11,14 @@ export default function ProductShowcase() {
     const [filter, setFilter] = useState("All");
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-
-    // Hooks untuk Routing dan Cart
     const router = useRouter();
     const { addToCart } = useCart();
 
-    // Fungsi untuk handle klik tombol Pesan
     const handleOrder = (product: any) => {
-        addToCart(product); // 1. Masukkan data ke keranjang global
-        router.push('/checkout'); // 2. Pindah ke halaman checkout
+        addToCart(product); 
+        router.push('/checkout');
     };
 
-    // 1. FETCH DATA REAL-TIME
     useEffect(() => {
         const fetchProducts = async () => {
             const { data } = await supabase.from('products').select('*').order('id', { ascending: true });
@@ -44,12 +40,10 @@ export default function ProductShowcase() {
         return () => { supabase.removeChannel(channel); };
     }, []);
 
-    // Filter Logic
     const filteredProducts = filter === "All"
         ? products
         : products.filter(p => p.category === filter);
 
-    // Helper untuk Status Stok
     const getStatusBadge = (stock: number) => {
         if (stock === 0) return { text: 'Out of Stock', color: 'bg-red-500/90' };
         if (stock < 10) return { text: `Limited: Sisa ${stock}`, color: 'bg-amber-500/90' };
@@ -156,11 +150,11 @@ export default function ProductShowcase() {
                                         </div>
                                     </div>
 
-                                    {/* CTA BUTTON - SUDAH DIPERBAIKI */}
+                                    {/* CTA BUTTON */}
                                     <div className="mt-auto">
                                         {p.stock > 0 ? (
                                             <button
-                                                onClick={() => handleOrder(p)} // <-- Menggunakan onClick handler
+                                                onClick={() => handleOrder(p)} 
                                                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-slate-900 text-white font-bold hover:bg-emerald-600 transition shadow-lg shadow-slate-200"
                                             >
                                                 <ShoppingCart size={18} />

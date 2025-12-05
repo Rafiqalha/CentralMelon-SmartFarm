@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { Filter, ChevronDown, TrendingUp, Calendar, Package, Download } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Data Dummy Realtime Dashboard
 const PRICE_DATA = [
     { name: 'Week 1', price: 12.5 },
     { name: 'Week 2', price: 12.8 },
@@ -26,7 +25,7 @@ const PRODUCTS = [
         price_ton: 13500000,
         capacity_week: 8,
         lead_time: "3 Hari",
-        image_url: "https://images.unsplash.com/photo-1592419044706-39796d40f98c?q=80&w=1545&auto=format&fit=crop",
+        image_url: "https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVsb258ZW58MHx8MHx8fDA%3D",
         seasonality: "Stabil (IoT)"
     },
     {
@@ -38,10 +37,22 @@ const PRODUCTS = [
         price_ton: 15000000,
         capacity_week: 5,
         lead_time: "5 Hari",
-        image_url: "https://images.unsplash.com/photo-1621961458348-f013d182b6a2?q=80&w=2070&auto=format&fit=crop",
+        image_url: "https://images.unsplash.com/photo-1661193320145-2252cbfa7755?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVsb258ZW58MHx8MHx8fDA%3D",
         seasonality: "High Demand"
     },
-    // Tambahkan produk lain...
+    {
+        id: 3,
+        name: "Sweet Net",
+        grade: "A",
+        brix: "12-14",
+        moq: 1500,
+        price_ton: 10000000,
+        capacity_week: 4,
+        lead_time: "4 Hari",
+        image_url: "https://images.unsplash.com/photo-1563288525-8f1ee0f874a8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWVsb258ZW58MHx8MHx8fDA%3D",
+        seasonality: "High Demand"
+    },
+    
 ];
 
 export default function WholesaleCatalog() {
@@ -49,7 +60,7 @@ export default function WholesaleCatalog() {
         <main className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
             <Navbar />
 
-            {/* 1. DASHBOARD HEADER (SUPPLIER PORTAL FEEL) */}
+            {/* DASHBOARD HEADER */}
             <div className="pt-28 pb-8 px-6 bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-8">
@@ -121,7 +132,7 @@ export default function WholesaleCatalog() {
                 </div>
             </div>
 
-            {/* 2. MAIN CATALOG GRID */}
+            {/* MAIN CATALOG GRID */}
             <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row gap-8">
 
                 {/* LEFT SIDEBAR (FILTERS) */}

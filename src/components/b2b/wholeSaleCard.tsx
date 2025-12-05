@@ -20,8 +20,6 @@ interface ProductB2B {
 export default function WholesaleCard({ product }: { product: ProductB2B }) {
     return (
         <div className="bg-white border border-gray-200 rounded-xl hover:border-emerald-500 transition-all duration-300 hover:shadow-lg group flex flex-col md:flex-row overflow-hidden">
-
-            {/* 1. Visual Kecil (Thumbnail) */}
             <div className="w-full md:w-48 h-48 md:h-auto relative bg-gray-100 shrink-0">
                 <Image
                     src={product.image_url}
@@ -34,7 +32,6 @@ export default function WholesaleCard({ product }: { product: ProductB2B }) {
                 </div>
             </div>
 
-            {/* 2. Data Specs (Main Content) */}
             <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
                     <div className="flex justify-between items-start mb-2">
@@ -52,7 +49,6 @@ export default function WholesaleCard({ product }: { product: ProductB2B }) {
                         </div>
                     </div>
 
-                    {/* Grid Spesifikasi Teknis */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-4 text-sm">
                         <div className="bg-slate-50 p-2 rounded border border-slate-100">
                             <span className="text-slate-400 text-[10px] uppercase block">Avg Brix</span>
@@ -73,10 +69,9 @@ export default function WholesaleCard({ product }: { product: ProductB2B }) {
                     </div>
                 </div>
 
-                {/* 3. Actions B2B */}
                 <div className="flex flex-wrap gap-3 mt-2 pt-4 border-t border-gray-100">
                     <a
-                        href={`https://wa.me/628123456789?text=Halo%20Central%20Melon,%20saya%20ingin%20RFQ%20untuk%20${product.name}%20Grade%20${product.grade}.`}
+                        href={`https://wa.me/6285709477872?text=Halo%20Central%20Melon,%20saya%20ingin%20RFQ%20untuk%20${product.name}%20Grade%20${product.grade}.`}
                         target="_blank"
                         className="flex-1 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition"
                     >

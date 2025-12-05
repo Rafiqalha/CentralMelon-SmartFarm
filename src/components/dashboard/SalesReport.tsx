@@ -11,7 +11,6 @@ export default function SalesReport() {
 
     useEffect(() => {
         const fetchTransactions = async () => {
-            // Join tabel transactions dengan transaction_items (jika perlu detail)
             const { data, error } = await supabase
                 .from('transactions')
                 .select('*')
@@ -23,13 +22,11 @@ export default function SalesReport() {
         fetchTransactions();
     }, []);
 
-    // Hitung Ringkasan
     const totalRevenue = transactions.reduce((acc, curr) => acc + curr.total_amount, 0);
     const totalTrx = transactions.length;
 
     return (
         <div className="space-y-6">
-            {/* Header Ringkasan */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-slate-900 text-white p-6 rounded-3xl shadow-lg flex items-center justify-between">
                     <div>
@@ -51,7 +48,6 @@ export default function SalesReport() {
                 </div>
             </div>
 
-            {/* Tabel Laporan */}
             <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-6 border-b border-gray-100">
                     <h3 className="text-lg font-bold text-slate-800">Riwayat Transaksi</h3>

@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Wajib untuk pindah halaman
-import { supabase } from '@/lib/supabase'; // Wajib untuk koneksi database
-import { Mail, Lock, ArrowLeft, Eye, EyeOff, Leaf, Loader2 } from 'lucide-react'; // Tambah Loader2
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase'; 
+import { Mail, Lock, ArrowLeft, Eye, EyeOff, Leaf, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function LoginPage() {
@@ -12,12 +12,11 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false); // State loading
-    const [errorMsg, setErrorMsg] = useState<string | null>(null); // State error
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-    // --- LOGIKA 1: LOGIN DENGAN EMAIL ---
     const handleEmailLogin = async (e: React.FormEvent) => {
-        e.preventDefault(); // Mencegah refresh halaman
+        e.preventDefault();
         setLoading(true);
         setErrorMsg(null);
 
@@ -28,10 +27,8 @@ export default function LoginPage() {
             });
 
             if (error) throw error;
-
-            // SUKSES! Arahkan ke Home
             router.refresh();
-            router.push('/'); // <--- PENTING: Ke Home ('/'), bukan Dashboard
+            router.push('/');
 
         } catch (err: any) {
             setErrorMsg(err.message || "Gagal login. Periksa email/password.");
@@ -40,14 +37,12 @@ export default function LoginPage() {
         }
     };
 
-    // --- LOGIKA 2: LOGIN DENGAN GOOGLE ---
     const handleGoogleLogin = async () => {
         setLoading(true);
         try {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    // Pastikan URL ini sesuai dengan konfigurasi Supabase
                     redirectTo: `${window.location.origin}/auth/callback`,
                 },
             });
@@ -58,7 +53,6 @@ export default function LoginPage() {
         }
     };
 
-    // Animasi Variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { duration: 0.8, staggerChildren: 0.2 } },
@@ -71,7 +65,7 @@ export default function LoginPage() {
 
     return (
         <div className="flex min-h-screen bg-white overflow-hidden">
-            {/* BAGIAN KIRI - VISUAL */}
+            {/* VISUAL */}
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -79,7 +73,7 @@ export default function LoginPage() {
                 className="hidden lg:flex lg:w-1/2 bg-emerald-900 relative overflow-hidden"
             >
                 <img
-                    src="https://images.unsplash.com/photo-1567306301408-9b74779a11af?q=80&w=1974&auto=format&fit=crop"
+                    src="https://plus.unsplash.com/premium_photo-1675040830254-1d5148d9d0dc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVsb258ZW58MHx8MHx8fDA%3D"
                     alt="Kebun Melon Modern"
                     className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay"
                 />
@@ -106,7 +100,7 @@ export default function LoginPage() {
                 </div>
             </motion.div>
 
-            {/* BAGIAN KANAN - FORM */}
+            {/* FORM */}
             <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -125,7 +119,7 @@ export default function LoginPage() {
                         className="bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-emerald-100/60 border border-white"
                     >
                         <motion.div variants={itemVariants} className="text-center mb-8">
-                            <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Selamat Datang! 👋</h2>
+                            <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Selamat Datang!</h2>
                             <p className="text-gray-600 text-lg">Masuk untuk kelola pertanian cerdas Anda.</p>
                         </motion.div>
 
@@ -139,7 +133,7 @@ export default function LoginPage() {
                         {/* Tombol Google dengan Handler */}
                         <motion.button
                             variants={itemVariants}
-                            onClick={handleGoogleLogin} // <-- LOGIKA GOOGLE DIPASANG
+                            onClick={handleGoogleLogin} 
                             disabled={loading}
                             whileHover={{ scale: 1.01, backgroundColor: '#f8fafc' }}
                             whileTap={{ scale: 0.98 }}
@@ -160,7 +154,7 @@ export default function LoginPage() {
                         </motion.div>
 
                         {/* Form dengan Handler onSubmit */}
-                        <form onSubmit={handleEmailLogin} className="space-y-6"> {/* <-- LOGIKA EMAIL DIPASANG */}
+                        <form onSubmit={handleEmailLogin} className="space-y-6"> {/* EMAIL */}
                             <motion.div variants={itemVariants} className="relative group">
                                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-600 transition-colors" size={22} />
                                 <input
@@ -176,7 +170,7 @@ export default function LoginPage() {
                                     htmlFor="email"
                                     className="absolute left-12 top-1/2 transform -translate-y-1/2 text-gray-500 text-base font-medium transition-all peer-focus:-top-3 peer-focus:left-3 peer-focus:text-sm peer-focus:text-emerald-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-emerald-600 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2 cursor-text pointer-events-none"
                                 >
-                                    Email Perusahaan
+                                    Email
                                 </label>
                             </motion.div>
 
@@ -195,7 +189,7 @@ export default function LoginPage() {
                                     htmlFor="password"
                                     className="absolute left-12 top-1/2 transform -translate-y-1/2 text-gray-500 text-base font-medium transition-all peer-focus:-top-3 peer-focus:left-3 peer-focus:text-sm peer-focus:text-emerald-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-emerald-600 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2 cursor-text pointer-events-none"
                                 >
-                                    Kata Sandi
+                                    Password
                                 </label>
                                 <button
                                     type="button"
@@ -207,7 +201,7 @@ export default function LoginPage() {
                             </motion.div>
 
                             <motion.button
-                                type="submit" // <-- PENTING: Agar form tersubmit
+                                type="submit" 
                                 disabled={loading}
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.01, backgroundColor: '#047857' }}
@@ -219,7 +213,7 @@ export default function LoginPage() {
                         </form>
 
                         <motion.p variants={itemVariants} className="text-center text-gray-600 mt-10 font-medium">
-                            Belum memiliki akun? <Link href="/register" className="text-emerald-600 hover:text-emerald-800 font-bold transition-colors hover:underline">Daftar Enterprise di sini</Link>
+                            Belum memiliki akun? <Link href="/register" className="text-emerald-600 hover:text-emerald-800 font-bold transition-colors hover:underline">Register</Link>
                         </motion.p>
                     </motion.div>
                 </div>

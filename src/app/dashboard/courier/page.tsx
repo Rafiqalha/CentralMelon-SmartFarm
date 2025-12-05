@@ -1,17 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic'; // WAJIB UNTUK MAP
+import dynamic from 'next/dynamic';
 import { Truck, MapPin, Navigation, Package, Clock, CheckCircle } from 'lucide-react';
 import { findShortestPath, ROAD_NETWORK, LOCATION_NODES } from '@/core/graph/dijkstra';
 
-// Load Map secara Lazy/Dynamic (No SSR)
 const CourierMap = dynamic(() => import('@/components/dashboard/CourierMap'), {
     ssr: false,
     loading: () => <div className="h-full w-full bg-gray-100 flex items-center justify-center text-gray-400">Memuat Peta...</div>
 });
 
-// Data Dummy Pesanan (Nanti bisa diganti fetch Supabase)
 const ORDERS = [
     { id: 'INV-001', customer: 'Budi Santoso', locationNode: 'CUSTOMER_1', status: 'Pending', items: '2x Golden Apollo' },
     { id: 'INV-002', customer: 'Siti Aminah', locationNode: 'CUSTOMER_2', status: 'Pending', items: '5x Rock Melon' },
@@ -21,13 +19,9 @@ const ORDERS = [
 export default function CourierDashboard() {
     const [selectedOrder, setSelectedOrder] = useState<any>(ORDERS[0]);
 
-    // Hitung Rute Menggunakan Graph Dijkstra
     const startNode = "GUDANG_PUSAT";
     const endNode = selectedOrder.locationNode;
-
-    // Algoritma bekerja di sini!
     const routeResult = findShortestPath(ROAD_NETWORK, startNode, endNode);
-
     const handleSelectOrder = (order: any) => {
         setSelectedOrder(order);
     };
@@ -71,7 +65,7 @@ export default function CourierDashboard() {
                 </div>
             </div>
 
-            {/* --- MAIN CONTENT (PETA & DETAIL) --- */}
+            {/* --- MAIN CONTENT --- */}
             <div className="flex-1 flex flex-col relative">
 
                 {/* Overlay Detail Rute */}

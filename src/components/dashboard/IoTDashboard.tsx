@@ -8,7 +8,6 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import RealHardwareControl from './RealHardwareControl';
 
-// --- TIPE DATA ---
 type SensorData = {
     time: string;
     temp: number;
@@ -21,7 +20,7 @@ type SensorData = {
 
 export default function IoTDashboard() {
     // --- STATE SIMULATOR ---
-    const [isDay, setIsDay] = useState(true); // Toggle Demo Siang/Malam
+    const [isDay, setIsDay] = useState(true); 
     const [history, setHistory] = useState<SensorData[]>([]);
     const [sensors, setSensors] = useState({
         temp: 29.0,
@@ -32,7 +31,6 @@ export default function IoTDashboard() {
         ph: 6.2
     });
 
-    // --- STATE DEVICES (RULE ENGINE) ---
     const [devices, setDevices] = useState({
         fan: false,
         pump: false,
@@ -40,32 +38,22 @@ export default function IoTDashboard() {
         valve: false
     });
 
-    // --- STATE AI ---
     const [aiAnalysis, setAiAnalysis] = useState("Menunggu data sensor stabil untuk analisis...");
     const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-    // --- 1. SENSOR SIMULATOR ENGINE ---
     useEffect(() => {
         const interval = setInterval(() => {
             setSensors(prev => {
-                // Logika Random Walk (Smooth Shifting)
                 const targetTemp = isDay ? 33 : 24;
                 const targetLight = isDay ? 45000 : 0;
 
-                // Rumus: Nilai Lama + (Arah ke Target * 0.1) + (Random Noise)
                 let newTemp = prev.temp + (targetTemp - prev.temp) * 0.05 + (Math.random() - 0.5) * 0.5;
                 let newLight = prev.light + (targetLight - prev.light) * 0.05 + (Math.random() - 0.5) * 500;
-
-                // Soil moisture turun pelan-pelan (penguapan), naik drastis kalau pompa nyala
                 let newSoil = prev.soil - 0.1;
-                if (devices.pump) newSoil += 2.0; // Pompa effect
-
-                // Humidity berbanding terbalik dengan suhu
+                if (devices.pump) newSoil += 2.0; 
                 let newHumid = 100 - (newTemp * 1.5) + (Math.random() - 0.5) * 2;
 
-                // Anomali Random (1% chance)
                 if (Math.random() > 0.99) newTemp += 3;
-
                 return {
                     temp: Math.max(15, Math.min(45, newTemp)),
                     humidity: Math.max(30, Math.min(95, newHumid)),
@@ -75,12 +63,11 @@ export default function IoTDashboard() {
                     ph: prev.ph + (Math.random() - 0.5) * 0.05
                 };
             });
-        }, 2000); // Update tiap 2 detik
+        }, 2000);
 
         return () => clearInterval(interval);
     }, [isDay, devices.pump]);
 
-    // --- 2. RULE ENGINE (OTOMASI) ---
     useEffect(() => {
         const fanStatus = sensors.temp > 32;
         const pumpStatus = sensors.soil < 40;
@@ -94,7 +81,6 @@ export default function IoTDashboard() {
             valve: valveStatus
         });
 
-        // Update History Grafik
         setHistory(prev => {
             const newData = { ...sensors, time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) };
             const newHist = [...prev, newData];
@@ -104,7 +90,6 @@ export default function IoTDashboard() {
 
     }, [sensors]);
 
-    // --- 3. AI ANALYZER TRIGGER ---
     useEffect(() => {
         const triggerAI = async () => {
             setIsAnalyzing(true);

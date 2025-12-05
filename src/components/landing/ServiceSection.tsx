@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sprout, Wifi, BookOpen, ArrowRight } from 'lucide-react';
-import Link from 'next/link'; // Import Link
+import Link from 'next/link';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +12,7 @@ const services = [
         icon: <Sprout size={40} />,
         title: "Greenhouse Construction",
         desc: "Jasa pembangunan greenhouse standar industri dengan material UV-proof dan sirkulasi udara optimal.",
-        link: "/contact?service=greenhouse" // Link spesifik
+        link: "/contact?service=greenhouse" 
     },
     {
         icon: <Wifi size={40} />,
@@ -33,10 +33,8 @@ export default function ServiceSection() {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Kita ubah animasinya agar lebih aman.
-            // Menggunakan 'batch' atau trigger yang lebih sensitif
             gsap.fromTo(".service-card",
-                { y: 50, opacity: 0 }, // State Awal
+                { y: 50, opacity: 0 },
                 {
                     y: 0,
                     opacity: 1,
@@ -45,7 +43,7 @@ export default function ServiceSection() {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: sectionRef.current,
-                        start: "top 85%", // Memicu animasi lebih cepat (saat 15% masuk layar)
+                        start: "top 85%",
                     }
                 }
             );
@@ -63,7 +61,6 @@ export default function ServiceSection() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {services.map((svc, idx) => (
-                        // Card Wrapper
                         <div
                             key={idx}
                             className="service-card opacity-0 bg-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-emerald-500 hover:bg-slate-800/80 transition duration-300 group flex flex-col h-full"

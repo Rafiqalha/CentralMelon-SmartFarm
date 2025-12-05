@@ -8,16 +8,15 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function CheckoutPage() {
-    const { items, updateQuantity, removeFromCart, totalPrice } = useCart(); // Hapus clearCart jika tidak dipakai
+    const { items, updateQuantity, removeFromCart, totalPrice } = useCart(); 
     const [customerName, setCustomerName] = useState('');
     const [customerAddress, setCustomerAddress] = useState('');
     const [errors, setErrors] = useState({ name: false, address: false });
-    const [isGenerating, setIsGenerating] = useState(false); // State Loading AI
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const formatRp = (num: number) => "Rp " + num.toLocaleString('id-ID');
 
     const handleCheckout = async () => {
-        // 1. Validasi Input
         setErrors({ name: false, address: false });
         let hasError = false;
         if (!customerName.trim()) {
@@ -38,7 +37,6 @@ export default function CheckoutPage() {
         const loadingToast = toast.loading("AI sedang mendeteksi lokasi maps...");
 
         try {
-            // 2. Minta Link Maps ke AI
             const response = await fetch('/api/detect-location', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -48,7 +46,6 @@ export default function CheckoutPage() {
             const data = await response.json();
             const mapLink = data.map_link || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(customerAddress)}`;
 
-            // 3. Susun Pesan WhatsApp
             let message = `Halo Central Melon, saya ingin memesan:\n\n`;
             items.forEach((item, index) => {
                 message += `${index + 1}. ${item.name} (${item.grade}) - ${item.quantity}x @ ${formatRp(item.price)}\n`;
@@ -57,10 +54,9 @@ export default function CheckoutPage() {
             message += `\n\n📋 Data Pemesan:`;
             message += `\nNama: ${customerName}`;
             message += `\nAlamat: ${customerAddress}`;
-            message += `\n\n📍 Lokasi Maps (AI Detected):\n${mapLink}`; // <-- LINK MAPS DISINI
+            message += `\n\n📍 Lokasi Maps (AI Detected):\n${mapLink}`;
             message += `\n\nMohon diproses, terima kasih!`;
 
-            // 4. Buka WhatsApp
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/6285709477872?text=${encodedMessage}`, '_blank');
 
@@ -68,7 +64,6 @@ export default function CheckoutPage() {
 
         } catch (error) {
             toast.error("Gagal generate maps, menggunakan alamat teks.", { id: loadingToast });
-            // Tetap lanjut meski AI error (fallback logic manual)
         } finally {
             setIsGenerating(false);
         }
@@ -97,7 +92,7 @@ export default function CheckoutPage() {
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                        {/* LIST ITEM (KIRI) */}
+                        {/* LIST ITEM */}
                         <div className="lg:col-span-2 space-y-4">
                             {items.map((item) => (
                                 <div key={item.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex gap-4 items-center transition hover:shadow-md">
@@ -132,7 +127,7 @@ export default function CheckoutPage() {
                             </Link>
                         </div>
 
-                        {/* FORM CHECKOUT (KANAN) */}
+                        {/* FORM CHECKOUT */}
                         <div className="lg:col-span-1 h-fit">
                             <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-emerald-50/50 sticky top-32">
                                 <h3 className="font-bold text-xl text-slate-900 mb-6 border-b border-gray-100 pb-4">Ringkasan Pesanan</h3>

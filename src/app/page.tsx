@@ -35,7 +35,7 @@ const IOT_DATA = [
 const HARVEST_PREDICTION = [
   { month: 'Jun', output: 12 },
   { month: 'Jul', output: 15 },
-  { month: 'Aug', output: 18 }, // Peak
+  { month: 'Aug', output: 18 },
   { month: 'Sep', output: 14 },
   { month: 'Oct', output: 16 },
 ];
@@ -45,10 +45,7 @@ export default function HomePage() {
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
 
   useGSAP(() => {
-    // 1. CINEMATIC HERO REVEAL
     const tl = gsap.timeline();
-
-    // Background Zoom Effect (Ken Burns)
     gsap.to('.hero-bg-img', {
       scale: 1.1,
       duration: 10,
@@ -70,7 +67,6 @@ export default function HomePage() {
         { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 }, '-=0.4'
       );
 
-    // 2. SCROLL ANIMATIONS (Reveal sections)
     gsap.utils.toArray('.reveal-on-scroll').forEach((elem: any) => {
       gsap.fromTo(elem,
         { y: 50, opacity: 0 },
@@ -87,7 +83,6 @@ export default function HomePage() {
       );
     });
 
-    // 3. PRODUCT PARALLAX
     gsap.to('.product-floating-img', {
       y: -50,
       scrollTrigger: {
@@ -105,7 +100,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* =========================================
-          1. CINEMATIC HERO (TESLA STYLE)
+          1. CINEMATIC HERO
          ========================================= */}
       <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
         {/* Background Layer */}
@@ -136,7 +131,7 @@ export default function HomePage() {
               <span className="hero-title-word inline-block text-white">Central</span>
             </div>
             <div className="overflow-hidden">
-              <span className="hero-title-word inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">Melon</span>
+              <span className="hero-title-word inline-block text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-cyan-300">Melon</span>
             </div>
             <div className="overflow-hidden">
               <span className="hero-title-word inline-block text-slate-400">Future.</span>
@@ -183,7 +178,7 @@ export default function HomePage() {
       </section>
 
       {/* =========================================
-          2. TECH SHOWCASE (IOT & AI)
+          2. TECH SHOWCASE
          ========================================= */}
       <section className="py-32 px-6 bg-[#050505] relative overflow-hidden">
         {/* Glow */}
@@ -267,7 +262,7 @@ export default function HomePage() {
       </section>
 
       {/* =========================================
-          3. PREMIUM PRODUCT (GOLDEN APOLLO)
+          3. PREMIUM PRODUCT
          ========================================= */}
       <section className="product-section py-32 bg-[#0a0a0a] relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-yellow-500/10 rounded-full blur-[150px] pointer-events-none"></div>
@@ -370,7 +365,7 @@ export default function HomePage() {
 
 
       {/* =========================================
-          5. ECOSYSTEM BENTO GRID (IMPROVED CONTENT)
+          5. ECOSYSTEM BENTO GRID
          ========================================= */}
       <section className="py-32 px-6 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
@@ -381,7 +376,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[500px]">
             {/* Education */}
-            <Link href="/services/agro-education" className="group relative col-span-1 md:col-span-1 bg-gradient-to-br from-emerald-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-emerald-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
+            <Link href="/services/agro-education" className="group relative col-span-1 md:col-span-1 bg-linear-to-br from-emerald-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-emerald-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
               <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition"><ArrowRight className="-rotate-45 group-hover:rotate-0 transition duration-300" /></div>
               <div>
                 <GraduationCap size={40} className="text-emerald-400 mb-6" />
@@ -403,7 +398,7 @@ export default function HomePage() {
             </Link>
 
             {/* AI Tools */}
-            <Link href="/tools/iot-dashboard" className="group relative col-span-1 md:col-span-1 bg-gradient-to-br from-cyan-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-cyan-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
+            <Link href="/tools/iot-dashboard" className="group relative col-span-1 md:col-span-1 bg-linear-to-br from-cyan-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-cyan-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
               <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition"><ArrowRight className="-rotate-45 group-hover:rotate-0 transition duration-300" /></div>
               <div>
                 <div className="flex items-center gap-2 mb-6">
@@ -422,7 +417,7 @@ export default function HomePage() {
             </Link>
 
             {/* Construction */}
-            <Link href="/services/greenhouse-construction" className="group relative col-span-1 md:col-span-1 bg-gradient-to-br from-blue-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-blue-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
+            <Link href="/services/greenhouse-construction" className="group relative col-span-1 md:col-span-1 bg-linear-to-br from-blue-900/20 to-slate-900 rounded-3xl p-8 border border-white/5 hover:border-blue-500/50 transition-all overflow-hidden reveal-on-scroll flex flex-col justify-between">
               <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition"><ArrowRight className="-rotate-45 group-hover:rotate-0 transition duration-300" /></div>
               <div>
                 <Sprout size={40} className="text-blue-400 mb-6" />

@@ -9,17 +9,15 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "API Key not found" }, { status: 500 });
         }
 
-        // Gunakan Model Gemini 2.0 Flash (Sesuai request dan akses kamu)
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-        // PROMPT ENGINEERING KHUSUS AGRONOMI
         const prompt = `
 
     Anda adalah MelonLens-ID, AI Agronomi Spesialis Buah Melon Indonesia yang memiliki kompetensi dalam identifikasi morfologi varietas melon tropis dan subtropis yang dibudidayakan di Indonesia.
     Tugas Anda adalah melakukan analisis visual berbasis citra secara ketat dan mengembalikan HANYA JSON murni tanpa markdown (jangan pakai \`\`\`json).
     Langkah-langkah Analisis:
 
-    1. Deteksi Awal – Apakah objek adalah melon (Cucumis melo)
+    1. Deteksi Awal, Apakah objek adalah melon (Cucumis melo)
         -Evaluasi ciri agronomi makro: bentuk bulat/oval, tekstur epidermis (licin/berjaring), warna perikarp, pola retikulasi, dan struktur kulit.
         Jika bukan melon, keluarkan JSON is_melon=false.
 
@@ -95,7 +93,6 @@ export async function POST(req: Request) {
       }
     `;
 
-        // Request ke Google Gemini
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -115,10 +112,8 @@ export async function POST(req: Request) {
             throw new Error(data.error?.message || "Gagal analisis AI");
         }
 
-        // Parsing hasil text menjadi JSON
         let textResult = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        // Bersihkan format markdown jika ada (kadang gemini nambahin ```json)
         textResult = textResult.replace(/```json/g, "").replace(/```/g, "").trim();
 
         const jsonResult = JSON.parse(textResult);

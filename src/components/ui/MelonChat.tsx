@@ -17,7 +17,6 @@ export default function MelonChat() {
     const [loading, setLoading] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Auto scroll ke bawah saat ada pesan baru
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -28,12 +27,11 @@ export default function MelonChat() {
         if (!input.trim()) return;
 
         const userMsg = input;
-        setInput(''); // Kosongkan input
+        setInput(''); 
         setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
         setLoading(true);
 
         try {
-            // Format history untuk API (ambil 10 pesan terakhir agar hemat token)
             const history = messages.slice(-10).map(m => ({
                 role: m.role,
                 parts: [{ text: m.text }]
@@ -59,7 +57,6 @@ export default function MelonChat() {
         }
     };
 
-    // Handle Enter untuk kirim, Shift+Enter untuk baris baru
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -83,7 +80,7 @@ export default function MelonChat() {
                 </div>
             </div>
 
-            {/* Area Pesan */}
+            {/* Pesan */}
             <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
                 <AnimatePresence>
                     {messages.map((msg, index) => (
@@ -122,10 +119,10 @@ export default function MelonChat() {
                 )}
             </div>
 
-            {/* Input Area (Textarea) */}
+            {/* Input Area */}
             <div className="p-4 bg-white border-t border-gray-100">
                 <div className="relative flex items-end gap-2">
-                    {/* GANTI INPUT JADI TEXTAREA */}
+                    {/* TEXTAREA */}
                     <textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
@@ -133,7 +130,7 @@ export default function MelonChat() {
                         placeholder="Tanya sesuatu..."
                         rows={1}
                         className="w-full pl-4 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition text-slate-800 placeholder:text-gray-400 resize-none min-h-[50px] max-h-[120px]"
-                        style={{ fieldSizing: "content" } as any} // CSS Modern untuk auto-grow (optional)
+                        style={{ fieldSizing: "content" } as any} 
                     />
                     <button
                         onClick={handleSend}

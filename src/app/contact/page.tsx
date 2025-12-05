@@ -25,7 +25,7 @@ export default function ContactPage() {
             <section className="pb-20 px-6">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-                    {/* KOLOM KIRI: INFO KONTAK MANUAL */}
+                    {/* INFO KONTAK MANUAL */}
                     <div className="space-y-8">
                         {/* Kartu Kontak */}
                         <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
@@ -51,7 +51,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="font-bold text-slate-900">Email Bisnis</p>
-                                        <p className="text-gray-500 mt-1">partnership@centralmelon.com</p>
+                                        <p className="text-gray-500 mt-1">admin@centralmelon.com</p>
                                         <p className="text-gray-500">support@centralmelon.com</p>
                                     </div>
                                 </div>
@@ -62,8 +62,8 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="font-bold text-slate-900">WhatsApp Official</p>
-                                        <p className="text-gray-500 mt-1">+62 812-3456-7890</p>
-                                        <a href="https://wa.me/628123456789" target="_blank" className="text-emerald-600 font-bold text-sm mt-2 flex items-center gap-1 hover:underline">
+                                        <p className="text-gray-500 mt-1">+62 857-0947-7872</p>
+                                        <a href="https://wa.me/6285709477872" target="_blank" className="text-emerald-600 font-bold text-sm mt-2 flex items-center gap-1 hover:underline">
                                             Chat WhatsApp <ArrowRight size={14} />
                                         </a>
                                     </div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                         </div>
                     </div>
 
-                    {/* KOLOM KANAN: AI CHATBOT (EMBEDDED) */}
+                    {/* AI CHATBOT */}
                     <div className="lg:sticky lg:top-32">
                         <div className="mb-4">
                             <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">

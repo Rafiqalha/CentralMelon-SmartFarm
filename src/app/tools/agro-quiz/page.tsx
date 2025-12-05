@@ -15,7 +15,6 @@ export default function AgroQuizPage() {
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [showExplanation, setShowExplanation] = useState(false);
 
-    // Topik Kuis
     const topics = [
         { id: 'hama', label: 'Pengendalian Hama & Penyakit', icon: '🐛' },
         { id: 'nutrisi', label: 'Manajemen Nutrisi AB Mix', icon: '💧' },
@@ -51,7 +50,7 @@ export default function AgroQuizPage() {
         setShowExplanation(true);
 
         if (index === questions[currentIndex].correctAnswer) {
-            setScore(s => s + 20); // 20 poin per soal (5 soal)
+            setScore(s => s + 20);
             if (currentIndex === questions.length - 1) {
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             }
@@ -68,18 +67,15 @@ export default function AgroQuizPage() {
         }
     };
 
-    // Helper untuk gambar visual (Unsplash Source)
     const getVisualImage = (keyword: string) => {
-        // Koleksi Gambar Relevan (Curated Unsplash URLs)
         const IMAGE_LIBRARY: Record<string, string> = {
-            'hama': 'https://images.unsplash.com/photo-1595123550441-d377e017de6a?q=80&w=1000&auto=format&fit=crop', // Daun rusak/hama
-            'jamur': 'https://images.unsplash.com/photo-1628352081506-83c43123ed6d?q=80&w=1000&auto=format&fit=crop', // Jamur/penyakit
-            'nutrisi': 'https://images.unsplash.com/photo-1592419044706-39796d40f98c?q=80&w=1000&auto=format&fit=crop', // Buah sehat
-            'panen': 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop', // Panen melon
-            'default': 'https://images.unsplash.com/photo-1492496913980-501348b61369?q=80&w=1000&auto=format&fit=crop' // Greenhouse umum
+            'hama': 'https://images.unsplash.com/photo-1595123550441-d377e017de6a?q=80&w=1000&auto=format&fit=crop', 
+            'jamur': 'https://images.unsplash.com/photo-1628352081506-83c43123ed6d?q=80&w=1000&auto=format&fit=crop',
+            'nutrisi': 'https://images.unsplash.com/photo-1592419044706-39796d40f98c?q=80&w=1000&auto=format&fit=crop', 
+            'panen': 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=1000&auto=format&fit=crop', 
+            'default': 'https://images.unsplash.com/photo-1492496913980-501348b61369?q=80&w=1000&auto=format&fit=crop'
         };
 
-        // Helper cerdas untuk memilih gambar
         const getVisualImage = (keyword: string) => {
             const lowerKey = keyword.toLowerCase();
             if (lowerKey.includes('hama') || lowerKey.includes('ulat') || lowerKey.includes('kutu')) return IMAGE_LIBRARY['hama'];
@@ -96,7 +92,7 @@ export default function AgroQuizPage() {
 
             <div className="pt-32 pb-20 px-6 max-w-3xl mx-auto">
 
-                {/* --- STATE: MENU UTAMA --- */}
+                {/* --- MENU UTAMA --- */}
                 {gameState === 'menu' && (
                     <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500">
                         <div>
@@ -135,7 +131,7 @@ export default function AgroQuizPage() {
                     </div>
                 )}
 
-                {/* --- STATE: PLAYING --- */}
+                {/* --- PLAYING --- */}
                 {gameState === 'playing' && questions.length > 0 && (
                     <div className="w-full">
                         {/* Progress Bar */}
@@ -177,7 +173,7 @@ export default function AgroQuizPage() {
                                     <div className="mb-6 rounded-2xl overflow-hidden h-48 bg-gray-100 relative">
                                         {/* Fallback image logic sederhana */}
                                         <img
-                                            src={`https://images.unsplash.com/photo-1595123550441-d377e017de6a?q=80&w=1000&auto=format&fit=crop`} // Dummy image agar tidak blank (realitanya gunakan API search gambar)
+                                            src={`https://plus.unsplash.com/premium_photo-1679428402040-e3c93439ec13?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} // Dummy image agar tidak blank (realitanya gunakan API search gambar)
                                             alt="Quiz Visual"
                                             className="w-full h-full object-cover"
                                         />
@@ -197,10 +193,10 @@ export default function AgroQuizPage() {
                                         const isCorrect = idx === questions[currentIndex].correctAnswer;
                                         const showResult = showExplanation;
 
-                                        let btnClass = "border-gray-200 hover:border-emerald-500 hover:bg-emerald-50"; // Default
+                                        let btnClass = "border-gray-200 hover:border-emerald-500 hover:bg-emerald-50"; 
                                         if (showResult) {
-                                            if (isCorrect) btnClass = "bg-emerald-100 border-emerald-500 text-emerald-800"; // Jawaban Benar
-                                            else if (isSelected && !isCorrect) btnClass = "bg-red-100 border-red-500 text-red-800"; // Jawaban Salah User
+                                            if (isCorrect) btnClass = "bg-emerald-100 border-emerald-500 text-emerald-800";
+                                            else if (isSelected && !isCorrect) btnClass = "bg-red-100 border-red-500 text-red-800";
                                             else btnClass = "border-gray-200 opacity-50"; // Sisa opsi
                                         }
 
@@ -249,7 +245,7 @@ export default function AgroQuizPage() {
                     </div>
                 )}
 
-                {/* --- STATE: RESULT --- */}
+                {/* --- RESULT --- */}
                 {gameState === 'result' && (
                     <div className="text-center bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-100 animate-in zoom-in duration-500">
                         <div className="w-24 h-24 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -277,7 +273,7 @@ export default function AgroQuizPage() {
                                 Menu Utama
                             </button>
                             <button
-                                onClick={() => startQuiz(topics[0].label)} // Restart logic simple
+                                onClick={() => startQuiz(topics[0].label)} 
                                 className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition flex items-center gap-2 shadow-lg shadow-emerald-200"
                             >
                                 <RefreshCw size={18} /> Coba Lagi

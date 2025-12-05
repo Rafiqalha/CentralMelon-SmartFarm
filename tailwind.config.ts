@@ -8,9 +8,8 @@ const config: Config = {
     ],
     theme: {
         extend: {
-            // --- ADD THIS SECTION ---
             animation: {
-                scroll: 'scroll 25s linear infinite', // Infinite scroll animation
+                scroll: 'scroll 25s linear infinite', 
             },
             keyframes: {
                 scroll: {
@@ -18,7 +17,6 @@ const config: Config = {
                     '100%': { transform: 'translateX(-100%)' },
                 },
             },
-            // -------------------------
             colors: {
                 background: "var(--background)",
                 foreground: "var(--foreground)",

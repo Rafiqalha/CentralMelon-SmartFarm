@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-// Tipe data item di keranjang
 export type CartItem = {
     id: number;
     name: string;
@@ -27,7 +26,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
 
-    // Simpan ke LocalStorage agar tidak hilang saat refresh
     useEffect(() => {
         const savedCart = localStorage.getItem('melon_cart');
         if (savedCart) setItems(JSON.parse(savedCart));

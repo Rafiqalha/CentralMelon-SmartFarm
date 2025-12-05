@@ -1,70 +1,86 @@
 # 🍈 Central Melon - The Future of Smart Farming Ecosystem
 
-> **Revolusi Pertanian 4.0: Dari Hulu (IoT & AI) hingga Hilir (B2B Supply Chain)**
+> **Revolusi Pertanian 4.0: Platform Ekosistem Agrikultur Terintegrasi dari Hulu (IoT & AI) hingga Hilir (B2B Supply Chain).**
 
-![Central Melon Banner](https://plus.unsplash.com/premium_photo-1679428402040-e3c93439ec13?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+![Hero Banner](docs/hero-banner.png) 
+*(Ganti dengan screenshot Hero Section Anda)*
 
-## 📖 Tentang Proyek
-
-**Central Melon** bukan sekadar e-commerce buah. Ini adalah ekosistem digital terintegrasi yang memberdayakan petani dengan teknologi presisi dan menghubungkan mereka langsung dengan pasar industri (B2B).
-
-Kami menggabungkan **Hardware IoT** (Internet of Things), **Generative AI** (Agronomist Bot), dan **Sistem Rantai Pasok** dalam satu platform berbasis web yang *seamless*.
-
-### 🏆 Poin Inovasi Utama (Hackathon Focus)
-1.  **Web Serial API Implementation**: Mengontrol hardware fisik (Arduino/Servo) langsung dari browser tanpa backend server (Zero Latency).
-2.  **Voice-Activated Interface**: Feedback suara "Jarvis" berbahasa Indonesia/Jawa saat interaksi IoT.
-3.  **AI-Powered Agronomy**: Menggunakan **Kolosal (Claude Sonnet 4.5)** untuk diagnosa penyakit dan strategi tanam.
-4.  **B2B Procurement Engine**: Dashboard khusus supplier dengan forecast panen dan simulasi harga dinamis.
+[![Vercel Deploy](https://deploy.vercel.com/button)](https://central-melon.vercel.app) 
+**[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 
 ---
 
-## 🚀 Fitur & Teknologi
+## Latar Belakang & Masalah
 
-### 1. 🤖 AI MelonBot (Powered by Kolosal)
-Asisten cerdas yang dilatih dengan data agronomi spesifik melon.
-* **Model:** Claude Sonnet 4.5 via Kolosal API.
-* **Kemampuan:** Diagnosa penyakit, rekomendasi nutrisi AB Mix, dan kalkulasi ROI.
-* **Context Aware:** Mengingat riwayat percakapan.
+Pertanian melon konvensional menghadapi tiga masalah utama:
+1.  **Ketidakpastian Kualitas:** Sulit memprediksi kemanisan (Brix) dan grade buah tanpa teknologi.
+2.  **Inefisiensi Operasional:** Penyiraman dan kontrol iklim masih manual.
+3.  **Rantai Pasok Terputus:** Petani sulit menjangkau pembeli industri (B2B) seperti hotel dan supermarket secara langsung.
 
-### 2. ⚡ IoT Command Center (Real-time Hardware)
-Dashboard monitoring dan kontrol greenhouse.
-* **Dual Mode:** Mendukung **Real Hardware** (Web Serial) dan **Simulation Mode** (untuk demo tanpa alat).
-* **Fitur:**
-    * Buka/Tutup Pintu Greenhouse (Servo).
-    * Monitoring Jarak/Keamanan (Ultrasonic).
-    * Voice Feedback ("Sugeng Rawuh...").
-    * Visualisasi Data Real-time (Recharts).
-
-### 3. 🏭 B2B Wholesale Portal
-Katalog khusus untuk pembeli skala besar (Hotel/Pabrik/Supermarket).
-* **Spec-First UI:** Fokus pada Brix, MOQ, dan Kapasitas Supply.
-* **AI Procurement Assistant:** Menghitung estimasi harga berdasarkan volume tonase.
-* **Supply Forecast:** Grafik prediksi panen.
-
-### 4. 🎓 Agro Education & Greenhouse Designer
-* **Gamified Quiz:** Kuis interaktif dengan konten visual.
-* **Curriculum:** Modul pembelajaran terstruktur.
+**Solusi:**
+**Central Melon** hadir sebagai "Sistem Operasi" untuk pertanian modern. Kami menggabungkan sensor IoT untuk presisi tanam, AI untuk agronomi cerdas, dan Marketplace B2B untuk kepastian pasar.
 
 ---
 
-## 🛠️ Tech Stack
+## Fitur Unggulan (Innovation)
 
-* **Frontend:** [Next.js 14](https://nextjs.org/) (App Router, Server Actions)
-* **Language:** [TypeScript](https://www.typescriptlang.org/)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-* **Animations:** [GSAP](https://gsap.com/) & Framer Motion
-* **Database & Auth:** [Supabase](https://supabase.com/)
-* **AI Engine:** [Kolosal API](https://kolosal.ai/) & OpenAI SDK
-* **Hardware Comms:** Web Serial API
-* **IoT Hardware:** Arduino Uno, HC-SR04, Servo SG90
+Aplikasi ini mengimplementasikan teknologi *bleeding edge* (Advanced Tech Bonus):
+
+### 1. Artificial Intelligence (AI)
+* **MelonBot (Kolosal/Claude 4.5):** Asisten chat cerdas untuk konsultasi penyakit dan strategi bisnis.
+* **MelonLens (Computer Vision):** Deteksi kualitas dan varietas melon hanya dari foto menggunakan Gemini 2.0 Vision.
+* **AI Greenhouse Designer:** Generator blueprint konstruksi greenhouse otomatis berdasarkan luas lahan.
+* **Procurement AI:** Asisten negosiasi harga dan estimasi kontrak untuk pembeli B2B.
+
+### 2. Real-time IoT Command Center
+* **Web Serial API:** Mengontrol hardware fisik (Arduino/Servo) langsung dari browser tanpa latensi server.
+* **Voice Feedback ("Jarvis"):** Sistem memberikan respon suara (TTS) berbahasa Indonesia saat perangkat diaktifkan.
+* **Digital Twin:** Mode simulasi realtime untuk monitoring suhu, kelembapan, dan nutrisi.
+
+### 3. B2B Supply Chain Engine
+* **Spec-First Catalog:** Katalog khusus supplier dengan data teknis (Brix, MOQ, Capacity).
+* **Dynamic Pricing:** Grafik tren harga pasar real-time.
+* **Integrated POS:** Sistem kasir offline yang tersinkronisasi dengan stok gudang online.
 
 ---
 
-## ⚙️ Panduan Instalasi (Local Setup)
+## Arsitektur & Teknologi
 
-Ikuti langkah ini untuk menjalankan proyek di komputer lokal Anda.
+Kami menggunakan arsitektur modern yang *scalable* dan aman:
+
+* **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS.
+* **Visual & Animasi:** GSAP (GreenSock), Framer Motion, Recharts.
+* **Backend & Database:** Supabase (PostgreSQL, Auth, Storage, Realtime Subscriptions).
+* **AI Engine:** Google Gemini API & Kolosal API (OpenAI Compatible).
+* **Hardware Communication:** Web Serial API (Browser-to-Hardware).
+
+---
+
+## Galeri Aplikasi
+
+| **Cinematic Homepage** | **IoT Dashboard (Dark Mode)** |
+|:---:|:---:|
+| ![Home](docs/home.png) | ![IoT](docs/iot.png) |
+| *Landing page interaktif dengan GSAP* | *Kontrol hardware realtime & simulasi* |
+
+| **AI MelonLens** | **B2B Catalog** |
+|:---:|:---:|
+| ![Lens](docs/lens.png) | ![Catalog](docs/catalog.png) |
+| *Deteksi penyakit tanaman visual* | *Portal pengadaan khusus industri* |
+
+*(Pastikan Anda mengupload screenshot ke folder `docs/` di repo Anda agar gambar muncul)*
+
+---
+
+## Panduan Instalasi (Lokal)
+
+Ikuti langkah ini untuk menjalankan proyek di komputer Anda.
+
+### Prasyarat
+* Node.js v18+
+* NPM / Yarn
 
 ### 1. Clone Repository
 ```bash
-git clone [https://github.com/Rafiqalha/CentralMelon-SmartFarm.git](https://github.com/Rafiqalha/CentralMelon-SmartFarm.git)
+git clone [https://github.com/Rafiqalha/centralmelon-smartfarm.git](https://github.com/Rafiqalha/centralmelon-smartfarm.git)
 cd central-melon

@@ -4,13 +4,13 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'images.unsplash.com', // Allow Unsplash
+                hostname: 'images.unsplash.com',
                 port: '',
                 pathname: '/**',
             },
             {
                 protocol: 'https',
-                hostname: 'xpntsqenifslywuuelks.supabase.co', // Allow Supabase (Keep this)
+                hostname: 'xpntsqenifslywuuelks.supabase.co',
                 port: '',
                 pathname: '/storage/v1/object/public/**',
             },

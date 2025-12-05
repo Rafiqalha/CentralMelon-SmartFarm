@@ -22,6 +22,25 @@ Daftar isi:
 - Stack Teknologi
 - Panduan Instalasi Lokal
 - Lisensi
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#tentang-proyek">Tentang Project</a>
+    </li>
+    <li>
+      <a href="#fitur-unggulan">Fitur Unggulan</a>
+      <ul>
+        <li><a href="#1-artificial-intelligence-ai">Artificial Intelligence</a></li>
+        <li><a href="#2-real-time-iot-command-center">Real-time IoT Command Center</a></li>
+        <li><a href="#3-b2b-supply-chain-engine">B2B Supply Chain Engine</a></li>
+      </ul>
+    </li>
+    <li><a href="#galeri-aplikasi">Galeri Aplikasi</a></li>
+    <li><a href="#arsitektur--teknologi">Stack Teknologi</a></li>
+    <li><a href="#panduan-instalasi-lokal">Panduan Instalasi Lokal</a></li>
+  </ol>
+</details>
 
 ---
 ## Tentang Proyek
@@ -77,15 +96,14 @@ Kami menggunakan arsitektur modern yang *scalable* dan aman:
 
 | **Cinematic Homepage** | **IoT Dashboard (Dark Mode)** |
 |:---:|:---:|
-| ![Home](docs/home.png) | ![IoT](docs/iot.png) |
+| ![Home](ss/homepage.png) | ![IoT](ss/iot-dashboard.png) |
 | *Landing page interaktif dengan GSAP* | *Kontrol hardware realtime & simulasi* |
 
 | **AI MelonLens** | **B2B Catalog** |
 |:---:|:---:|
-| ![Lens](docs/lens.png) | ![Catalog](docs/catalog.png) |
+| ![Lens](ss/ai-melonlens.png) | ![Catalog](ss/b2b-catalog.png) |
 | *Deteksi penyakit tanaman visual* | *Portal pengadaan khusus industri* |
 
-*(Pastikan Anda mengupload screenshot ke folder `docs/` di repo Anda agar gambar muncul)*
 
 ---
 

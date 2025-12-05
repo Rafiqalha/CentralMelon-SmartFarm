@@ -1,33 +1,45 @@
-# 🍈 Central Melon - The Future of Smart Farming Ecosystem
+# Central Melon – The Future of Smart Farming Ecosystem
 
 > **Revolusi Pertanian 4.0: Platform Ekosistem Agrikultur Terintegrasi dari Hulu (IoT & AI) hingga Hilir (B2B Supply Chain).**
 
-<<<<<<< HEAD
-![Hero Banner](docs/hero-banner.png) 
-*(Ganti dengan screenshot Hero Section Anda)*
-=======
-![Central Melon Banner](<img width="1919" height="974" alt="image" src="https://github.com/user-attachments/assets/6af09c04-1259-4885-8648-981948a90629" />
-)
->>>>>>> 671da1129d53d3851b6a9635b820d98edbfe92ad
+Ini adalah ekosistem digital terintegrasi yang memberdayakan petani melalui teknologi pertanian presisi (precision farming) dan menghubungkan hasil panen mereka secara langsung ke pasar industri (B2B) seperti hotel, pabrik, dan supermarket.
 
-[![Vercel Deploy](https://deploy.vercel.com/button)](https://centralmelon-smartfarm.vercel.app) 
+Proyek ini dibangun sebagai solusi end-to-end yang menggabungkan perangkat keras IoT, kecerdasan buatan berbasis agronomi, dan sistem manajemen rantai pasok digital, semuanya dalam satu antarmuka berbasis web.
+
+
+[![Vercel Deploy](https://deploy.vercel.com/button)](https://centralmelon-smartfarm.vercel.app)
+
 **[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 
 ---
+Daftar isi:
+- Tentang Projek
+- Fitur Utama
+  - AI MelonBot – Asisten Agronomi Cerdas
+  - IoT Command Center – Kontrol & Monitoring Greenhouse
+  - B2B Wholesale Portal – Pasar untuk Pembeli Industri
+  - Agro Education & Greenhouse Designer
+- Stack Teknologi
+- Panduan Instalasi Lokal
+- Lisensi
 
-## Latar Belakang & Masalah
+---
+## Tentang Proyek
 
-Pertanian melon konvensional menghadapi tiga masalah utama:
-1.  **Ketidakpastian Kualitas:** Sulit memprediksi kemanisan (Brix) dan grade buah tanpa teknologi.
-2.  **Inefisiensi Operasional:** Penyiraman dan kontrol iklim masih manual.
-3.  **Rantai Pasok Terputus:** Petani sulit menjangkau pembeli industri (B2B) seperti hotel dan supermarket secara langsung.
+Central Melon dirancang untuk menjawab dua tantangan utama di sektor pertanian melon:
 
-**Solusi:**
-**Central Melon** hadir sebagai "Sistem Operasi" untuk pertanian modern. Kami menggabungkan sensor IoT untuk presisi tanam, AI untuk agronomi cerdas, dan Marketplace B2B untuk kepastian pasar.
+1. Kesenjangan teknologi – Petani kesulitan mengakses alat monitoring dan rekomendasi budidaya berbasis data.
+2. Ketidakefisienan rantai pasok – Hasil panen sering kali dijual melalui perantara dengan harga tidak transparan.
+
+Dengan platform ini, petani dapat:
+
+- Memantau dan mengontrol lingkungan greenhouse secara real-time,
+- Mendiagnosis penyakit tanaman dan menerima rekomendasi nutrisi spesifik,
+- Menjual hasil panen langsung ke pembeli B2B dengan harga berbasis data pasar.
 
 ---
 
-## Fitur Unggulan (Innovation)
+## Fitur Unggulan
 
 Aplikasi ini mengimplementasikan teknologi *bleeding edge* (Advanced Tech Bonus):
 
@@ -89,3 +101,5 @@ Ikuti langkah ini untuk menjalankan proyek di komputer Anda.
 ```bash
 git clone [https://github.com/Rafiqalha/centralmelon-smartfarm.git](https://github.com/Rafiqalha/centralmelon-smartfarm.git)
 cd central-melon
+```
+Projek ini Dibuat oleh tim QWERTY :v

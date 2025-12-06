@@ -4,18 +4,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'xpntsqenifslywuuelks.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/public/**',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
+        hostname: 'xpntsqenifslywuuelks.supabase.co',
+        pathname: '/storage/v1/object/public/**',
       },
     ],
   },
-};
+}
 
-export default nextConfig;
+module.exports = nextConfig

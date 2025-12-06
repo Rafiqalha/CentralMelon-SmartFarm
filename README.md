@@ -11,6 +11,8 @@ Proyek ini dibangun sebagai solusi end-to-end yang menggabungkan perangkat keras
 
 **[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-File-blue?logo=googledrive)](https://drive.google.com/file/d/1XaGSzxfn1PzTlz0tHumD1Lp0DbpdN9I9/view?usp=sharing)
+
 ---
 
 <details>

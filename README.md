@@ -7,7 +7,7 @@ Ini adalah ekosistem digital terintegrasi yang memberdayakan petani melalui tekn
 Proyek ini dibangun sebagai solusi end-to-end yang menggabungkan perangkat keras IoT, kecerdasan buatan berbasis agronomi, dan sistem manajemen rantai pasok digital, semuanya dalam satu antarmuka berbasis web.
 
 
-[![Vercel Deploy](https://deploy.vercel.com/button)](https://centralmelon-smartfarm.vercel.app)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://centralmelon-smartfarm.vercel.app)
 
 **[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 

@@ -9,6 +9,7 @@ Proyek ini dibangun sebagai solusi end-to-end yang menggabungkan perangkat keras
 
 [![Vercel Deploy](https://deploy.vercel.com/button)](https://centralmelon-smartfarm.vercel.app)
 
+
 **[Lihat Live Demo Aplikasi](https://central-melon.vercel.app)**
 
 ---

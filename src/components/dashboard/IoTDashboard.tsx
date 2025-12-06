@@ -8,6 +8,7 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import RealHardwareControl from './RealHardwareControl';
 
+// --- TIPE DATA ---
 type SensorData = {
     time: string;
     temp: number;
@@ -20,7 +21,7 @@ type SensorData = {
 
 export default function IoTDashboard() {
     // --- STATE SIMULATOR ---
-    const [isDay, setIsDay] = useState(true); 
+    const [isDay, setIsDay] = useState(true); // Toggle Demo Siang/Malam
     const [history, setHistory] = useState<SensorData[]>([]);
     const [sensors, setSensors] = useState({
         temp: 29.0,
@@ -31,6 +32,7 @@ export default function IoTDashboard() {
         ph: 6.2
     });
 
+    // --- STATE DEVICES (RULE ENGINE) ---
     const [devices, setDevices] = useState({
         fan: false,
         pump: false,
@@ -38,22 +40,32 @@ export default function IoTDashboard() {
         valve: false
     });
 
+    // --- STATE AI ---
     const [aiAnalysis, setAiAnalysis] = useState("Menunggu data sensor stabil untuk analisis...");
     const [isAnalyzing, setIsAnalyzing] = useState(false);
 
+    // --- 1. SENSOR SIMULATOR ENGINE ---
     useEffect(() => {
         const interval = setInterval(() => {
             setSensors(prev => {
+                // Logika Random Walk (Smooth Shifting)
                 const targetTemp = isDay ? 33 : 24;
                 const targetLight = isDay ? 45000 : 0;
 
+                // Rumus: Nilai Lama + (Arah ke Target * 0.1) + (Random Noise)
                 let newTemp = prev.temp + (targetTemp - prev.temp) * 0.05 + (Math.random() - 0.5) * 0.5;
                 let newLight = prev.light + (targetLight - prev.light) * 0.05 + (Math.random() - 0.5) * 500;
+
+                // Soil moisture turun pelan-pelan (penguapan), naik drastis kalau pompa nyala
                 let newSoil = prev.soil - 0.1;
-                if (devices.pump) newSoil += 2.0; 
+                if (devices.pump) newSoil += 2.0; // Pompa effect
+
+                // Humidity berbanding terbalik dengan suhu
                 let newHumid = 100 - (newTemp * 1.5) + (Math.random() - 0.5) * 2;
 
+                // Anomali Random (1% chance)
                 if (Math.random() > 0.99) newTemp += 3;
+
                 return {
                     temp: Math.max(15, Math.min(45, newTemp)),
                     humidity: Math.max(30, Math.min(95, newHumid)),
@@ -63,11 +75,12 @@ export default function IoTDashboard() {
                     ph: prev.ph + (Math.random() - 0.5) * 0.05
                 };
             });
-        }, 2000);
+        }, 2000); // Update tiap 2 detik
 
         return () => clearInterval(interval);
     }, [isDay, devices.pump]);
 
+    // --- 2. RULE ENGINE (OTOMASI) ---
     useEffect(() => {
         const fanStatus = sensors.temp > 32;
         const pumpStatus = sensors.soil < 40;
@@ -81,6 +94,7 @@ export default function IoTDashboard() {
             valve: valveStatus
         });
 
+        // Update History Grafik
         setHistory(prev => {
             const newData = { ...sensors, time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) };
             const newHist = [...prev, newData];
@@ -90,26 +104,30 @@ export default function IoTDashboard() {
 
     }, [sensors]);
 
-    useEffect(() => {
-        const triggerAI = async () => {
-            setIsAnalyzing(true);
-            try {
-                const res = await fetch('/api/iot-analyze', {
-                    method: 'POST',
-                    body: JSON.stringify({ sensors, devices })
-                });
-                const data = await res.json();
-                if (data.analysis) setAiAnalysis(data.analysis);
-            } catch (e) {
-                console.error("AI Error");
-            } finally {
-                setIsAnalyzing(false);
-            }
-        };
+    // --- 3. AI ANALYZER TRIGGER (MANUAL / SLOW INTERVAL) ---
+    const triggerAI = async () => {
+        if (isAnalyzing) return;
+        setIsAnalyzing(true);
+        try {
+            const res = await fetch('/api/iot-analyze', {
+                method: 'POST',
+                body: JSON.stringify({ sensors, devices })
+            });
+            const data = await res.json();
+            if (data.analysis) setAiAnalysis(data.analysis);
+        } catch (e) {
+            console.error("AI Error");
+            setAiAnalysis("Gagal terhubung ke AI. Coba lagi nanti.");
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
 
-        const aiInterval = setInterval(triggerAI, 15000);
+    // Auto analyze setiap 2 menit (Hemat Kuota)
+    useEffect(() => {
+        const aiInterval = setInterval(triggerAI, 120000);
         return () => clearInterval(aiInterval);
-    }, [isDay]);
+    }, []);
 
     return (
         <div className="space-y-8">
@@ -184,17 +202,20 @@ export default function IoTDashboard() {
                         <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
                             <Activity className="text-emerald-600" /> Grafik Realtime (Suhu & Kelembapan)
                         </h3>
-                        <ResponsiveContainer width="100%" height="90%">
-                            <LineChart data={history}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                                <XAxis dataKey="time" fontSize={10} tick={{ fill: '#94a3b8' }} />
-                                <YAxis fontSize={10} tick={{ fill: '#94a3b8' }} domain={[0, 100]} />
-                                <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
-                                <Line type="monotone" dataKey="temp" stroke="#ef4444" strokeWidth={3} dot={false} name="Suhu (°C)" />
-                                <Line type="monotone" dataKey="humidity" stroke="#3b82f6" strokeWidth={3} dot={false} name="Kelembapan (%)" />
-                                <Line type="monotone" dataKey="soil" stroke="#10b981" strokeWidth={2} dot={false} strokeDasharray="5 5" name="Soil (%)" />
-                            </LineChart>
-                        </ResponsiveContainer>
+                        {/* Added w-full h-full wrapper for Recharts safety */}
+                        <div className="w-full h-[300px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={history}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                                    <XAxis dataKey="time" fontSize={10} tick={{ fill: '#94a3b8' }} />
+                                    <YAxis fontSize={10} tick={{ fill: '#94a3b8' }} domain={[0, 100]} />
+                                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
+                                    <Line type="monotone" dataKey="temp" stroke="#ef4444" strokeWidth={3} dot={false} name="Suhu (°C)" />
+                                    <Line type="monotone" dataKey="humidity" stroke="#3b82f6" strokeWidth={3} dot={false} name="Kelembapan (%)" />
+                                    <Line type="monotone" dataKey="soil" stroke="#10b981" strokeWidth={2} dot={false} strokeDasharray="5 5" name="Soil (%)" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
 
                     {/* RIGHT: CONTROL & AI */}
@@ -215,7 +236,7 @@ export default function IoTDashboard() {
                                     <div key={idx} className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
                                         <div>
                                             <p className="font-bold text-slate-700 text-sm">{d.name}</p>
-                                            <p className="text-[10px] text-gray-400">Trigger: {d.rule}</p>
+                                            <p className="text-xs text-gray-400">Trigger: {d.rule}</p>
                                         </div>
                                         <span className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${d.on ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-200' : 'bg-gray-200 text-gray-400'
                                             }`}>
@@ -227,12 +248,24 @@ export default function IoTDashboard() {
                         </div>
 
                         {/* AI INSIGHT */}
+                        {/* FIXED: bg-linear -> bg-gradient */}
                         <div className="bg-linear-to-br from-indigo-900 to-slate-900 p-6 rounded-3xl text-white relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
                             <div className="relative z-10">
-                                <h3 className="font-bold mb-2 flex items-center gap-2 text-indigo-300">
-                                    ✨ AI Agronomist Analysis
-                                </h3>
+                                <div className="flex justify-between items-start mb-4">
+                                    <h3 className="font-bold flex items-center gap-2 text-indigo-300">
+                                        ✨ AI Agronomist Analysis
+                                    </h3>
+                                    {/* TOMBOL REFRESH MANUAL */}
+                                    <button
+                                        onClick={triggerAI}
+                                        disabled={isAnalyzing}
+                                        className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition disabled:opacity-50"
+                                        title="Minta Analisis Baru"
+                                    >
+                                        <RefreshCw size={16} className={isAnalyzing ? "animate-spin" : ""} />
+                                    </button>
+                                </div>
                                 <div className="min-h-[100px] text-sm leading-relaxed text-indigo-100/90 font-light">
                                     {isAnalyzing ? (
                                         <div className="flex items-center gap-2 animate-pulse">

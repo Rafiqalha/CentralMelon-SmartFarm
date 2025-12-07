@@ -124,7 +124,7 @@ cd central-melon
 
 ### 2. Connecting API KEY
 ```bash
-GOOGLE_AI_API_KEY=AIz........
-KOLOSAL_API_KEY=kol_ey........
+GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+KOLOSAL_API_KEY=your_kolosal_api_key_here
 ```
 Projek ini Dibuat oleh tim QWERTY

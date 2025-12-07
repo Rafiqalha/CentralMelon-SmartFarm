@@ -1,46 +1,70 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from 'openai';
 import { NextResponse } from "next/server";
+
+const client = new OpenAI({
+    apiKey: process.env.KOLOSAL_API_KEY,
+    baseURL: 'https://api.kolosal.ai/v1'
+});
 
 export async function POST(req: Request) {
     try {
         const { sensors, devices } = await req.json();
-        const apiKey = process.env.GOOGLE_AI_API_KEY;
 
-        if (!apiKey) return NextResponse.json({ error: "API Key Missing" }, { status: 500 });
+        if (!process.env.KOLOSAL_API_KEY) {
+            return NextResponse.json({ error: "Kolosal API Key Missing" }, { status: 500 });
+        }
 
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const systemPrompt = `
+            Bertindaklah sebagai AI Agronomist Profesional untuk Greenhouse Melon Premium.
+            Tugasmu adalah menganalisis data sensor real-time dan memberikan insight singkat.
+            
+            DATA SENSOR SAAT INI:
+            - Suhu: ${sensors.temp.toFixed(1)}°C
+            - Kelembapan: ${sensors.humidity.toFixed(0)}%
+            - Kelembapan Tanah: ${sensors.soil.toFixed(0)}%
+            - Cahaya: ${sensors.light.toFixed(0)} Lux
+            - Nutrisi (EC): ${sensors.ec.toFixed(1)} mS/cm
+            - pH: ${sensors.ph.toFixed(1)}
 
-        const prompt = `
-      Bertindaklah sebagai AI Agronomist Profesional untuk Greenhouse Melon Premium.
-      
-      DATA SENSOR REALTIME:
-      - Suhu: ${sensors.temp.toFixed(1)}°C
-      - Kelembapan: ${sensors.humidity.toFixed(0)}%
-      - Kelembapan Tanah: ${sensors.soil.toFixed(0)}%
-      - Cahaya: ${sensors.light.toFixed(0)} Lux
-      - Nutrisi (EC): ${sensors.ec.toFixed(1)} mS/cm
-      - pH: ${sensors.ph.toFixed(1)}
+            STATUS PERANGKAT OTOMATIS:
+            - Cooling Fan: ${devices.fan ? 'MENYALA' : 'MATI'}
+            - Pompa Irigasi: ${devices.pump ? 'MENYALA' : 'MATI'}
+            - Shading Net: ${devices.shading ? 'MENUTUP' : 'TERBUKA'}
+            - Katup Nutrisi: ${devices.valve ? 'TERBUKA' : 'TERTUTUP'}
 
-      STATUS PERANGKAT OTOMATIS:
-      - Cooling Fan: ${devices.fan ? 'MENYALA' : 'MATI'}
-      - Pompa Irigasi: ${devices.pump ? 'MENYALA' : 'MATI'}
-      - Shading Net: ${devices.shading ? 'MENUTUP' : 'TERBUKA'}
+            INSTRUKSI:
+            1. Analisis kondisi tanaman saat ini (Stress/Optimal/Bahaya).
+            2. Jelaskan alasan teknis kenapa perangkat tertentu menyala/mati.
+            3. Berikan prediksi singkat 1 jam ke depan.
+            
+            ATURAN OUTPUT:
+            - Jawab dalam 1 paragraf pendek yang padat (maksimal 3-4 kalimat).
+            - Gunakan Bahasa Indonesia profesional.
+            - JANGAN gunakan format markdown (bold/italic/bintang *). Hanya teks biasa.
+        `;
 
-      TUGAS:
-      1. Analisis kondisi tanaman saat ini (Stress/Optimal/Bahaya).
-      2. Jelaskan kenapa perangkat tertentu menyala/mati (korelasikan dengan Rule Engine).
-      3. Berikan prediksi singkat untuk 1 jam ke depan.
-      4. Jangan pakai tanda * untuk teks
+        const completion = await client.chat.completions.create({
+            model: 'Llama 4 Maverick',
+            messages: [
+                { role: 'system', content: 'Kamu adalah asisten IoT pertanian yang memberikan analisis singkat dan padat tanpa markdown.' },
+                { role: 'user', content: systemPrompt }
+            ],
+            temperature: 0.3,
+            max_tokens: 300, 
+        });
 
-      Jawab dalam 1 paragraf pendek yang padat dan profesional. Bahasa Indonesia.
-    `;
+        let analysisText = completion.choices[0].message.content || "Data tidak cukup untuk analisis.";
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        return NextResponse.json({ analysis: response.text() });
+        analysisText = analysisText
+            .replace(/\*\*/g, "")
+            .replace(/\*/g, "")
+            .replace(/#/g, "")
+            .trim();
 
-    } catch (error) {
-        return NextResponse.json({ error: "Gagal analisis AI" }, { status: 500 });
+        return NextResponse.json({ analysis: analysisText });
+
+    } catch (error: any) {
+        console.error("Kolosal IoT Error:", error);
+        return NextResponse.json({ error: "Gagal analisis AI (Kolosal)" }, { status: 500 });
     }
 }

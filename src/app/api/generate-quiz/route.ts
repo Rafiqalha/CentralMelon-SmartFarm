@@ -1,50 +1,77 @@
+import OpenAI from 'openai';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
+const client = new OpenAI({
+  apiKey: process.env.KOLOSAL_API_KEY,
+  baseURL: 'https://api.kolosal.ai/v1'
+});
+
 export async function POST(req: Request) {
-    try {
-        const { topic, difficulty } = await req.json();
-        const apiKey = process.env.GOOGLE_AI_API_KEY;
-        if (!apiKey) return NextResponse.json({ error: "API Key Missing" }, { status: 500 });
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-        const prompt = `
-      Bertindaklah sebagai Dosen Agronomi Spesialis Melon.
-      Buatkan 5 soal kuis interaktif tentang topik: "${topic}" dengan tingkat kesulitan "${difficulty}".
-      
-      Komposisi Soal:
-      1. 2 Soal Pilihan Ganda (Multiple Choice) tentang teori dasar.
-      2. 2 Soal Analisis Kasus (Scenario) dimana user harus memecahkan masalah kebun.
-      3. 1 Soal Visual (Image Based). Untuk soal ini, berikan keyword gambar yang relevan di field 'imageKeyword' (contoh: "melon powdery mildew", "drip irrigation system"). Saya akan mencari gambarnya sendiri di frontend.
+  let requestBody;
+  try {
+    requestBody = await req.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
 
+  const { topic, difficulty } = requestBody;
 
-      Aturan Wajib:
-      1. Jangan pernah pakai tanda * atau / di teks soal
-      2. biarkan murni teks saja
+  const systemPrompt = `
+        Bertindaklah sebagai Dosen Agronomi Spesialis Melon.
+        Buatkan 5 soal kuis interaktif tentang: "${topic}" (${difficulty}).
+        
+        Komposisi Soal (Wajib 5):
+        1. 2 Soal Pilihan Ganda (Teori Dasar)
+        2. 2 Soal Analisis Kasus (Problem Solving)
+        3. 1 Soal Visual (Image Based) - WAJIB ada keyword gambar Inggris spesifik.
+        
+        Aturan Penting:
+        - Output WAJIB JSON Array murni.
+        - JANGAN gunakan markdown (\`\`\`).
+        - Penjelasan jawaban harus padat & jelas (Maksimal 2 kalimat) agar respon cepat.
 
-      Output WAJIB JSON murni (Array of Objects):
-      [
-        {
-          "type": "multiple_choice" | "analysis" | "visual",
-          "question": "Pertanyaan...",
-          "imageKeyword": "keyword gambar (hanya jika type visual, jika tidak kosongkan string)",
-          "options": ["Opsi A", "Opsi B", "Opsi C", "Opsi D"],
-          "correctAnswer": 0 (index jawaban benar 0-3),
-          "explanation": "Penjelasan detail & edukatif kenapa jawaban itu benar (Max 3 kalimat)."
-        }
-      ]
-      JANGAN gunakan markdown.
+        Format JSON:
+        [
+            {
+                "type": "multiple_choice",
+                "question": "...",
+                "imageKeyword": "",
+                "options": ["A", "B", "C", "D"],
+                "correctAnswer": 0,
+                "explanation": "Penjelasan singkat."
+            },
+            ... (ulangi sampai 5 soal)
+        ]
     `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        let text = response.text();
-        text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+  try {
+    console.log("Mencoba Generate 5 Soal dengan Kolosal...");
 
-        return NextResponse.json(JSON.parse(text));
+    if (!process.env.KOLOSAL_API_KEY) throw new Error("No Kolosal Key");
 
-    } catch (error) {
-        console.error("Quiz Error:", error);
-        return NextResponse.json({ error: "Gagal membuat kuis" }, { status: 500 });
+    const completion = await client.chat.completions.create({
+      model: 'Claude Sonnet 4.5',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: 'Buatkan 5 soal sekarang.' }
+      ],
+      temperature: 0.5,
+      max_tokens: 4000,
+    });
+
+    let text = completion.choices[0].message.content || "[]";
+    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+
+    if (!text.endsWith(']')) {
+      throw new Error("JSON Terpotong (Incomplete)");
     }
+
+    console.log("Sukses 5 Soal via Kolosal!");
+    return NextResponse.json(JSON.parse(text));
+
+  } catch (kolosalError: any) {
+    console.error("Kolosal Gagal...", kolosalError.message);
+
+  }
 }
